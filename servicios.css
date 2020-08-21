@@ -1,0 +1,201 @@
+@font-face {
+	font-family: Montserrat;
+	src: url(font/Montserrat/Montserrat-SemiBold.ttf);
+}
+
+body, html {
+    height: 100%;
+	width: 100%;
+	font-family: 'Montserrat',sans-serif;
+}
+
+
+.container {
+    
+}
+
+.sidenav {
+    height: 100%;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    justify-content: center;
+}
+
+.sidenav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+	width: 100%;
+	padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
+	background-color: #284686;
+	overflow: hidden;
+	display: block;
+    vertical-align: middle;
+}
+
+.content {
+    position: absolute;
+    width: 100%; /* = 100% - 2*5% padding */
+}
+
+.content .rs {
+    width: 100%;
+    display: block;
+}
+
+.content p {
+    color: black;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+
+.imgser {
+	height:100%;
+	overflow: hidden;
+	display: block;
+}
+
+.itemmenu {
+	width : 100%;
+	/*padding-bottom: 14%;  = width for a 1:1 aspect ratio */
+	background-color: #E5E5E5;
+	overflow: hidden;
+	display: block;
+	transition: 0.3s linear;
+	height: 33.33333%;
+	position: relative;
+}
+
+.itemmenux {
+	width: 100%;
+	padding-bottom: 14%; /* = width for a 1:1 aspect ratio */
+	background-color: #EEEEEE;
+	overflow: hidden;
+	display: block;
+	transition: 0.3s linear;
+}
+
+.itemselected {
+	background-color: #0388C1 !important;
+	color: white;
+	transition: 0.3s linear;
+}
+
+
+.table {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+.table-cell {
+    margin-top: 64px;
+	display: table-cell;
+    vertical-align: middle;
+}
+
+.main {
+	margin-left: 30%;
+	background-color: white;
+	position: fixed;
+	height: 100%;
+	width: 70%;
+}
+
+.maintitle p {
+	color: black;
+	text-align: left;
+	margin:40px;
+	font-family: Montserrat;
+	font-size: 35px;
+}
+
+.maintitle {
+	width: 100%;
+	height: 15%;
+	overflow: hidden;
+	display: block;
+}
+
+.listservicio{
+}
+.listservicio ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.itemservicio {
+	width: 90%;
+	background-color: #EEEEEE;
+	display: block;
+	margin: 10px;
+}
+
+.itemservicioselect {
+	background-color: #E5E5E5;
+}
+.itemservicio .iscontent
+{
+	
+}
+
+.itemservicio .istitle
+{
+	color: black;
+	text-align: left;
+	font-family: Montserrat;
+	font-size: 30px;
+}
+.itemservicio .isdescr
+{
+	
+}
+.itemservicio .rs {
+	width:20%;
+	height: 50%;
+	display: block;
+	margin-top: 30px;
+	margin-left: 20px;
+
+}
+
+.itemservicio .buttoninfo{
+	background-color: #284686;
+	height: 40px;
+	width: 190px;
+	 border-radius: 5px;
+}
+.back{
+	position: absolute;
+	width: 80px;
+	background-color: #7b7b7b;
+	bottom: 50px;
+    left: 50px;
+    padding: 15px;
+    border-radius: 10px;
+}
+.main-list.col-4{
+	max-width: 30% !important;
+	height: 100%;
+}
+.contenido.col-8{
+	max-width: 70% !important;
+	height: 100%;
+	background: #fff;
+}
+a.grid.active .back {
+    background-color: #0388C1 !important;
+    transition: 0.5s linear;
+}
+a.grid .back{
+    transition: 0.5 linear;
+}

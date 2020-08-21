@@ -1,0 +1,414 @@
+@font-face {
+	font-family: Montserrat;
+	src: url(font/Montserrat/Montserrat-SemiBold.ttf);
+}
+
+body {
+	background-image: url('imagenes/imgmain.jpg');
+	background-size: cover;
+	font-family: 'Montserrat', sans-serif;
+}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.SubCont{
+	width: 50%;
+	height: 250px;
+	float: left;
+}
+.ListOpt{
+	margin:0 0 25px 0;
+}
+.SubCont1{
+	width: 116%;
+}
+.SubContInfo{
+	width: 30%;
+	height: 250px;
+	float: left;
+	margin: 12px;
+}
+#Tst1{
+	margin: 10% 0%;
+}
+.SubContInfo1{
+	width: 100%;
+}
+#accountModal .modal-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+#accountModal .active{
+	background-color: #007bff !important;
+	border-radius: 50%;
+}
+#accountModal .modal-dialog .modal-content{
+	height: 400px;
+	width: 600px;
+}
+#accountModal .modal-dialog .modal-body{
+	padding: 5%;
+	font-size: 27px;
+	text-align: center;
+}
+#accountModal .modal-dialog .buttons.modal-confirm{
+	width: 400px;
+	margin: auto;
+}
+#accountModal .modal-dialog .modal-body .cancel-modal,
+#accountModal .modal-dialog .modal-body .confirm-modal{
+	width: 90px;
+	/* display: inline-block; */
+	margin: 3% 0 0 0;
+	/* background-image: url("../icons/cancel-icon.svg");
+    display: inline-block; */
+}
+#accountModal .modal-dialog .modal-body .confirm-modal{
+	margin-left: 105px;
+}
+
+#infoModal .modal-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+#infoModal .modal-dialog .modal-body img{
+	width: auto;
+}
+#infoModal .modal-dialog .modal-body p{
+	font-size: 32px;
+}
+#infoModal .modal-dialog .modal-content{
+	height: 450px;
+	width: 900px;
+}
+#infoModal .modal-dialog .modal-body{
+	padding: 5%;
+	font-size: 27px;
+	text-align: center;
+}
+#infoModal .modal-dialog .modal-body .active{
+	background-color: #007bff !important;
+	border-radius: 50%;
+	width: 90px;
+	z-index: 3;
+}
+#ActiveModalInfo3{
+	height: 90px;
+	position: relative;
+	top: 30px;
+}
+.bottommenu {
+	overflow: hidden;
+	position: fixed; /* Set the navbar to fixed position */
+	bottom: 0; /* Position the navbar at the bottom of the page */
+	width: 100%; /* Full width */
+	left: 0;
+	justify-content: center;
+}
+
+.topinfo {
+	color: #E5EEF5;
+	overflow: hidden;
+	position: fixed; /* Set the navbar to fixed position */
+	top: 0; /* Position the navbar at the top of the page */
+	width: 100%; /* Full width */
+	left: 0;
+	font-family: 'Montserrat';
+	margin-left: 40px;
+}
+.background{
+	color: #E5EEF5;
+	margin-left: 45px;
+	margin-top: 40px;
+}
+.background .temp{
+	font-size: 80px;
+	margin: 0;
+}
+.background .date p{
+	display: inline-block;
+	font-size: 30px;
+	margin: 0;
+}
+
+.menu{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 20%;
+}
+.menu .menu-tabs{
+	height: 100%;
+}
+.menu .logo{
+	background-color: #284686;
+	position: relative;
+}
+.menu .logo img{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 60%;
+}
+.menu .item {
+	height: 100%;
+}
+.menu .item ul{
+	height: 100%;
+}
+
+.menu .item ul li{
+	height: 100%;
+}
+ul .itemmenu,
+ul .itemmenux{
+	text-align: center;
+	padding: 15px;
+	position: relative;
+	height: 100%;
+}
+.menu .itemmenu .icons,
+.menu .itemmenux .icons{
+	height: 60%;
+	position: relative;
+}
+
+.menu .itemmenu .texto,
+.menu .itemmenux .texto{
+	height: 40%;
+	bottom: 0;
+	position: relative;
+}
+
+.menu .itemmenu .icons img,
+.menu .itemmenux .icons img{
+	position: relative;
+	top: 10%;
+	display:block;
+	margin:auto;
+
+	width: auto;
+	height: 70%;
+}
+
+
+.menu .itemmenu span,
+.menu .itemmenux span {
+	margin-top: 8px;
+	display: block;
+	font-size: 25px;
+	line-height: 1;
+}
+
+.itemmenu {
+	background-color: #E5E5E5;
+}
+.itemmenux {
+	background-color: #EEEEEE;
+}
+
+.itemselected {
+	background-color: #0388C1;
+	-webkit-animation: container-rotate 1568ms linear infinite;
+	animation: container-rotate 1568ms linear infinite;
+	transition: 0.7s linear;
+}
+
+.content {
+	position: absolute;
+	height: 90%; /* = 100% - 2*5% padding */
+	width: 90%; /* = 100% - 2*5% padding */
+	padding: 5%;
+}
+
+.table {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+.table-cell {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.content .rs {
+	width: auto;
+	height: auto;
+	max-height: 55%;
+	max-width: 55%;
+	display:block;
+	margin:auto;
+}
+
+.content p{
+	color: #000000;
+	text-align: center;
+	font-family: Montserrat;
+	font-size: 25px;
+}
+
+.textinfo p {
+	display: inline-block;
+	font-size: 25px;
+	margin: 5px;
+}
+.textinfo {
+	width: 100%;
+}
+
+/*
+	Nuevos cambios hechos menu lateral
+*/
+
+
+#extramenu {
+	display: block;
+	position:relative;
+	text-align: right;
+	margin-top: 50px;
+	margin-left: 1800px;
+	width: 125px;
+	height: 250px;
+	float: right;
+	background-color: #000;
+	opacity: 0.9;
+	-webkit-border-top-left-radius: 50px;
+	-webkit-border-bottom-left-radius: 50px;
+	-moz-border-radius-topleft: 50px;
+	-moz-border-radius-bottomleft: 50px;
+	border-top-left-radius: 50px;
+	border-bottom-left-radius: 50px;
+}
+#extramenu div{
+	display: block;
+	position:relative;
+	margin-top: 30px;
+	margin-right: 20px;
+	height: 80px;
+	width: 80px;
+	text-align: center;
+	margin-left:20px;
+}
+
+#extramenu img{
+	height: 80px;
+	padding:10px;
+	width: auto;
+	z-index: 1;
+	border-radius: 50%;
+}
+#extramenu .active{
+	display:block !important;
+	position:relative;
+	background-color: #007bff !important;
+	transition: 0.5s linear !important;
+	height: 80px !important;
+	width: 80px !important;
+	z-index: 2;
+	border-radius: 50%;
+}
+
+
+
+
+/* Nuevos modales */
+
+/* Languages */
+
+#languageModal .modal-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+#languageModal .modal-dialog .modal-content{
+	height: 390px;
+	width: 400px;
+	text-align: center;
+	border-radius: 5%;
+}
+#languageModal .modal-dialog .modal-header
+{
+	text-align: center;
+	width: 100%;
+	height: 120px;
+	vertical-align: middle;
+	background-color: #284686;
+}
+#languageModal .modal-dialog .modal-header .language-title{
+	padding-left:20%;
+	color: white;
+	font-size:38px;
+
+}
+#languageModal .modal-dialog .modal-body{
+	padding: 0%;
+}
+#languageModal .modal-dialog .modal-body .langbtn{
+	font-size:38px;
+	background-color: rgb(229, 229, 229);
+	color: #000;
+	height: 90px;
+}
+#languageModal .modal-dialog .modal-body .active{
+	background-color: #0388C1 !important;
+	border-radius: 0% !important;
+	color: white;
+	width: 400px;
+	z-index: 3;
+}
+
+/* Currency */
+#currencyModal .modal-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+#currencyModal .modal-dialog .modal-content{
+	height: 390px;
+	width: 400px;
+	text-align: center;
+	border-radius: 5%;
+}
+#currencyModal .modal-dialog .modal-header
+{
+	text-align: center;
+	width: 100%;
+	height: 120px;
+	vertical-align: middle;
+	background-color: #284686;
+}
+#currencyModal .modal-dialog .modal-header .currency-title{
+	padding-left:20%;
+	color: white;
+	font-size:38px;
+
+}
+#currencyModal .modal-dialog .modal-body{
+	padding: 0%;
+}
+#currencyModal .modal-dialog .modal-body .currbtn{
+	font-size:38px;
+	background-color: rgb(229, 229, 229);
+	color: #000;
+	height: 90px;
+}
+#currencyModal .modal-dialog .modal-body .active{
+	background-color: #0388C1 !important;
+	border-radius: 0% !important;
+	color: white;
+	width: 400px;
+	z-index: 3;
+}

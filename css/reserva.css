@@ -1,0 +1,169 @@
+.img-dtl{
+    max-height: 75%;
+}
+.img-dtl .rs{
+    width: 160%;
+    height: 100%;
+}
+.logo2 h2{
+    top: 55% !important;
+}
+.logo2 h1{
+    top: 30% !important;
+}
+.bienvenida{
+    font-size: 2rem;
+    margin-top: 6rem;
+}
+.bienvenida2{
+    font-size: 2rem;
+    margin-top: 6rem;
+}
+.markers{
+    font-size: 2rem;
+    height: 500px;
+}
+.markers .dates,
+.markers .hours{
+    height: 50%;
+    padding-left: 100px;
+}
+.markers .dates .title,
+.markers .dates .date,
+.markers .hours .title,
+.markers .hours .hour{
+    display: inline-block;
+}
+.markers .dates .title,
+.markers .hours .title{
+    margin-right: 30px;
+}
+.markers .dates .date span,
+.markers .hours .hour span{
+    display: inline-block;
+    width: 120px;
+    height: 180px;
+    margin: 30px;
+    padding-top: 65px;
+    padding-bottom: 65px;
+    background: #e0e1e1;
+    position: relative;
+    font-style: italic;
+    text-align: center;
+}
+.markers .icon-bf{
+    width: 50px;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.markers .icon-af{
+    width: 50px;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.markers .hours .title{
+    margin-right: 50px;
+}
+.confirm button{
+    height: 80px;
+    width: 260px;
+    float: right;
+    font-size: 30px;
+}
+.confirm button.cancel-reserva{
+    margin-right: 6rem !important;
+}
+#confirmModal .modal-dialog{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.SubCont{
+    width: 50%;
+    height: 290px;
+    float: left;
+}
+#confirmModal .active{
+    background-color: #007bff !important;
+    border-radius: 50%;
+}
+#confirmModal .modal-dialog .modal-content{
+    height: 500px;
+    width: 900px;
+}
+#Tst1{
+	margin: 10% 0%;
+}
+#confirmModal .modal-dialog .modal-body{
+	padding: 5%;
+    font-size: 27px;
+    text-align: center;
+}
+#confirmModal .modal-dialog .buttons.modal-confirm{
+    width: 400px;
+    margin: auto;
+}
+#confirmModal .modal-dialog .modal-body .cancel-modal,
+#confirmModal .modal-dialog .modal-body .confirm-modal{
+    width: 120px;
+    /* display: inline-block; */
+    margin: 2% 0 0 0;
+    /* background-image: url("../icons/cancel-icon.svg");
+    display: inline-block; */
+}
+#confirmModal .modal-dialog .modal-body .confirm-modal{
+    margin-left: 105px;
+}
+#acceptModal .modal-dialog{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);    
+}
+#acceptModal .modal-dialog .modal-body img{
+    width: 200px;
+}
+#acceptModal .modal-dialog .modal-body p{
+    font-size: 32px;
+}
+#acceptModal .modal-dialog .modal-content{
+    height: 500px;
+    width: 900px;
+}
+#acceptModal .modal-dialog .modal-body{
+    padding: 70px 125px;
+    font-size: 32px;
+    text-align: center;
+}
+a.grid.active .back{
+    background-color: #454444;
+    transition: 0.5s linear;
+}
+a.grid .back{
+    transition: 0.5 linear;
+}
+span.grid.active{
+    background-color: #6a6868 !important;
+    transition: 0.5s linear;
+}
+span.grid{
+    transition: 0.5s;
+}
+button.grid.active{
+    background-color: #0388C1 !important;
+    transition: 0.5s linear;
+}
+button.grid{
+    transition: 0.5s linear;
+    background-color: #284686 !important;
+}
+
+#service-name{
+    padding-top: 50px;
+    font-size: 3em;
+}

@@ -1,0 +1,12 @@
+{
+    "vendor": "LG Developer",
+    "largeIcon": "largeIcon.png",
+    "icon": "icon.png",
+    "main": "index.html",
+    "bgImage": "launchBGImage.png",
+    "id": "com.lg.app.signage",
+    "title": "STAY",
+    "type": "web",
+    "version": "0.0.1",
+    "uiRevision":2
+}

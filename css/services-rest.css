@@ -1,0 +1,114 @@
+.card-box .info .rest-img{
+    vertical-align: middle;
+}
+.card-box .info .rest-info{
+    font-size: 20px;
+}
+.card-box .info .rest-info a{
+    float: right;
+}
+.card-box .info .rest-info .more-info{
+    margin-right: 100px;
+}
+.Store-box .info .rest-img{
+    vertical-align: middle;
+}
+.Store-box .info .rest-info{
+    font-size: 20px;
+}
+.Store-box .info .rest-info a{
+    float: left !important;
+}
+.Store-box .info .rest-info .more-info{
+    margin-right: 100px;
+}
+.restaurantes{
+    height: 95%;
+}
+.photos{
+    height: 560px;
+    width: 95%;
+    overflow: hidden;
+    margin: auto;
+}
+.photos img{
+    width: 40% !important;
+}
+.actions{
+    text-align: right;
+}
+.details{
+    height: 0;
+    overflow: hidden;
+    transition: 0.5s linear;
+}
+.details.open{
+    height: 730px;
+    display: block !important;
+    transition: 0.5s linear;
+}
+.details.open .actions a{
+    color: #FFF;
+    font-size: 25px;
+    padding: 20px 30px;
+    /* margin-top: 1rem; */
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    width: 300px;
+    height: 75px;
+    background-color: #284686;
+}
+.details.open .actions a:active{
+    background-color: #0388C1;
+}
+.logo2{
+    text-align: center;
+    height: 25%;
+}
+.logo2 h1{
+    top: 60% !important;
+}
+.logo2 h1,
+.logo2 h2{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+}
+.actions .less-info{
+    margin-right: 40px;
+}
+.actions a{
+    width: 150px;
+    height: 50px;
+    padding: 10px;
+}
+.img-dtl{
+    max-height: 45%;
+}
+.img-dtl .rs{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.restaurantes{
+    top: 0 !important;
+}
+.sidebar{
+    height: 30%;
+}
+.sidebar .itemmenu{
+    height: 33.3%;
+}
+.card-box .info .rest-info p{
+    font-size: 30px;
+}
+a.grid.active{
+    background-color: #0388C1 !important;
+    transition: 0.5s linear;
+}
+a.grid{
+    transition: 0.5s linear;
+    background-color: #284686 !important;
+}
