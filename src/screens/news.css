@@ -1,0 +1,42 @@
+.new {
+  display: flex;
+  justify-content: space-around;
+  margin: 1.6rem 0;
+
+  border-bottom-width: 0.4px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, 0.108);
+
+  text-align: left;
+}
+
+.new__image_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.new__metadata {
+  margin: 0.5rem 0;
+}
+
+.new__image {
+  /* display: block; */
+  height: 275px;
+  width: 330px !important;
+  object-fit: scale-down;
+  padding: 1rem;
+  /* background-color: gray; */
+}
+
+.new__title {
+  font-size: 1.3rem;
+  color: black;
+  font-weight: 600;
+}
+
+.new__content {
+  margin-top: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
