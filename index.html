@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -7,7 +8,8 @@
 	<!--<link rel="stylesheet" type="text/css" href="css/servicios_new.css">
 	<link rel="stylesheet" type="text/css" href="css/services-rest.css">-->
 	<link rel="stylesheet" type="text/css" href="css/submenus.css">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.3/custom-elements-es5-adapter.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.3/custom-elements-es5-adapter.js"></script>
 	<script type="text/javascript" src="js.cookie.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="master.js"></script>
@@ -20,192 +22,198 @@
 		);window[aiName]=aisdk,aisdk.queue&&0===aisdk.queue.length&&aisdk.trackPageView({});
 	</script>-->
 </head>
+
 <body>
 
-<div id="loader-wrapper" class="Oculto">
-	<div id="loader"></div>
-	<div class="loader-section section-left"></div>
-	<div class="loader-section section-right"></div>
-</div>
+	<div id="loader-wrapper" class="Oculto">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
 
-<div class="modal fade" id="languageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-sm" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div id="langTitle" class="language-title"> </div>
-			</div>
-			<div class="modal-body">
-				<div class="languageButtons">
-					<div id="activeLanguage1" class="langbtn" > </div>
-					<div id="activeLanguage2" class="langbtn" > </div>
-					<div id="activeLanguage3" class="langbtn" > </div>
+	<div class="modal fade" id="languageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div id="langTitle" class="language-title"> </div>
+				</div>
+				<div class="modal-body">
+					<div class="languageButtons">
+						<div id="activeLanguage1" class="langbtn"> </div>
+						<div id="activeLanguage2" class="langbtn"> </div>
+						<div id="activeLanguage3" class="langbtn"> </div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="modal fade" id="currencyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-sm" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div id="currencyTitle" class="currency-title"> </div>
-			</div>
-			<div class="modal-body">
-				<div class="languageButtons">
-					<div id="activeCurrency1" class="currbtn" > </div>
-					<div id="activeCurrency2" class="currbtn" > </div>
-					<div id="activeCurrency3" class="currbtn" > </div>
+	<div class="modal fade" id="currencyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div id="currencyTitle" class="currency-title"> </div>
+				</div>
+				<div class="modal-body">
+					<div class="languageButtons">
+						<div id="activeCurrency1" class="currbtn"> </div>
+						<div id="activeCurrency2" class="currbtn"> </div>
+						<div id="activeCurrency3" class="currbtn"> </div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-body">		
-				<div id="ActiveModalInfo1" class="SubContInfo" opcion="s1">
-					<div id="Tst1">
-						<img src="./icons/menuprincipal/eventos.png" width="124" height="122">
+	<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div id="ActiveModalInfo1" class="SubContInfo" opcion="s1">
+						<div id="Tst1">
+							<img src="./icons/menuprincipal/eventos.png" width="124" height="122">
+						</div>
+						<div id="eventTxt">Eventos</div>
 					</div>
-					<div id="eventTxt">Eventos</div>
+					<div id="ActiveModalInfo2" class="SubContInfo" opcion="s2">
+						<div id="Tst1">
+							<img src="./icons/menuprincipal/lugares.png" width="124" height="122">
+						</div>
+						<div id="placesTxt">Lugares de Interés</div>
+					</div>
+					<div id="ActiveModalInfo4" class="SubContInfo" opcion="s4">
+						<div id="Tst1">
+							<img src="./icons/menuprincipal/areashotel.png" width="124" height="122">
+						</div>
+						<div id="facilitiesTxt">Instalaciones</div>
+					</div>
+					<div class="ListOpt">
+						<div class="SubContInfo1" aling="center" opcion="s3">
+							<img src="icons/cancel-icon.svg" id="ActiveModalInfo3" class="cancel-modal" data-dismiss="modal">
+							<span class="cancel-modal"></span>
+						</div>
+					</div>
 				</div>
-				<div id="ActiveModalInfo2" class="SubContInfo" opcion="s2">
-					<div id="Tst1">
-						<img src="./icons/menuprincipal/lugares.png" width="124" height="122">
-					</div>
-					<div id="placesTxt">Lugares de Interés</div>
-				</div>
-				<div id="ActiveModalInfo4" class="SubContInfo" opcion="s4">
-					<div id="Tst1">
-						<img src="./icons/menuprincipal/areashotel.png" width="124" height="122">
-					</div>
-					<div id="facilitiesTxt">Instalaciones</div>
-				</div>	
-				<div class="ListOpt">
-					<div class="SubContInfo1" aling="center" opcion="s3">
-						<img src="icons/cancel-icon.svg" id="ActiveModalInfo3" class="cancel-modal" data-dismiss="modal" >
-						<span class="cancel-modal"></span>
-					</div>   
-				</div>                 
 			</div>
 		</div>
 	</div>
-</div>
-<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-body">		
-				<div id="ActiveModal1" class="SubCont" opcion="s1">
-					<div id="Tst1">
-						<img src="./icons/menuprincipal/misreservas.png" width="124" height="122">
+	<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div id="ActiveModal1" class="SubCont" opcion="s1">
+						<div id="Tst1">
+							<img src="./icons/menuprincipal/misreservas.png" width="124" height="122">
+						</div>
+						<div id="reservationsTxt">Mis reservas</div>
 					</div>
-					<div id="reservationsTxt">Mis reservas</div>
+					<div id="ActiveModal2" class="SubCont" opcion="s2">
+						<div id="Tst1">
+							<img src="./icons/menuprincipal/Estadocuenta.png" width="124" height="122">
+						</div>
+						<div id="accountStateTxt">Estado de cuenta</div>
+					</div>
+					<div class="ListOpt">
+						<div aling="center" opcion="s3">
+							<img src="icons/cancel-icon.svg" id="ActiveModal3" class="cancel-modal" data-dismiss="modal">
+							<span class="cancel-modal"></span>
+						</div>
+					</div>
 				</div>
-				<div id="ActiveModal2" class="SubCont" opcion="s2">
-					<div id="Tst1">
-						<img src="./icons/menuprincipal/Estadocuenta.png" width="124" height="122">
-					</div>
-					<div id="accountStateTxt">Estado de cuenta</div>
-				</div>			
-				<div class="ListOpt">
-					<div aling="center" opcion="s3">
-						<img src="icons/cancel-icon.svg" id="ActiveModal3" class="cancel-modal" data-dismiss="modal" >
-						<span class="cancel-modal"></span>
-					</div>   
-				</div>                 
 			</div>
 		</div>
 	</div>
-</div>
-<div class="container-fluid">
-	<div class="row">
-		<div class="background">
-			<p class="temp"></p>
-			<div class="col-12 pl-0 date">
-				<p id="dia" class="dia"></p>
-				<p>/</p>
-				<p id="mes" class="mes"></p>
-				<p>/</p>
-				<p id="anio" class="anio"></p>
-			</div>
-			<div class="date">
-				<p id="horas" class="horas"></p>
-				<p>: </p>
-				<p id="minutos" class="minutos"></p>
-				<!--<p id="ampm" class="ampm"></p>-->
-			</div>
-		</div>
-		<div id="extramenu">
-			<div id="mnu_btn_1">
-				<img src="icons/language.png" alt="" id="langimg" >
-			</div>
-			<div id="mnu_btn_2">
-				<img src="icons/currency.png" alt="" id="currimg" >
-			</div>
-		</div>
-		<div class="menu col-12 p-0">
-			<div class="row menu-tabs">
-				<div class="logo col-3">
-					<img id="imglogo" src="">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="background">
+				<p class="temp"></p>
+				<div class="col-12 pl-0 date">
+					<p id="dia" class="dia"></p>
+					<p>/</p>
+					<p id="mes" class="mes"></p>
+					<p>/</p>
+					<p id="anio" class="anio"></p>
 				</div>
-				<div class="item col-9 pr-0">
-					<ul class="col-12 row p-0">
-						<li class="itemmenu col-2" opcion="inicio" id="inicio">
+				<div class="date">
+					<p id="horas" class="horas"></p>
+					<p>: </p>
+					<p id="minutos" class="minutos"></p>
+					<!--<p id="ampm" class="ampm"></p>-->
+				</div>
+			</div>
+			<div id="extramenu">
+				<div id="mnu_btn_1">
+					<img src="icons/language.png" alt="" id="langimg">
+				</div>
+				<div id="mnu_btn_2">
+					<img src="icons/currency.png" alt="" id="currimg">
+				</div>
+			</div>
+			<div class="menu col-12 p-0">
+				<div class="row menu-tabs">
+					<div class="logo col-3">
+						<img id="imglogo" src="">
+					</div>
+					<div class="item col-9 pr-0">
+						<ul class="col-12 row p-0">
+							<li class="itemmenu col-2" opcion="inicio" id="inicio">
 								<span class="icons">
 									<img src="./icons/menuprincipal/Infohotel.png">
 								</span>
-							<span id="infoTxt" class ="texto">Información</span>
-						</li>
-						<li class="itemmenux col-2" opcion="servicios" id="servicios">
+								<span id="infoTxt" class="texto">Información</span>
+							</li>
+							<li class="itemmenux col-2" opcion="servicios" id="servicios">
 								<span class="icons">
 									<img src="./icons/menuprincipal/servicios.png">
 								</span>
-							<span id="servicesTxt" class ="texto">Servicios</span>
-						</li>
-						<li class="itemmenu col-2" opcion="tienda" id="tienda">
+								<span id="servicesTxt" class="texto">Servicios</span>
+							</li>
+							<li class="itemmenu col-2" opcion="tienda" id="tienda">
 								<span class="icons">
 									<img src="./icons/menuprincipal/Tienda.png">
 								</span>
-							<span id="storeTxt" class ="texto">Tienda</span>
-						</li>
-						<li class="itemmenux col-2" opcion="serviciosexternos" id="serviciosexternos">
+								<span id="storeTxt" class="texto">Tienda</span>
+							</li>
+							<li class="itemmenux col-2" opcion="serviciosexternos" id="serviciosexternos">
 								<span class="icons">
 									<img src="./icons/menuprincipal/Clima.png">
 								</span>
-							<span id="weatherTxt" class ="texto">Clima</span>
-						</li>
-						<li class="itemmenu col-2" opcion="bandeja" id="bandeja">
+								<span id="weatherTxt" class="texto">Clima</span>
+							</li>
+							<li class="itemmenu col-2" opcion="bandeja" id="bandeja">
 								<span class="icons">
 									<img src="./icons/menuprincipal/notifi.png">
 								</span>
-							<span id="messagesTxt" class ="texto">Mensajes</span>
-						</li>
-						<li class="itemmenux col-2" opcion="cuenta" id="cuenta">
+								<span id="messagesTxt" class="texto">Mensajes</span>
+							</li>
+							<li class="itemmenux col-2" opcion="cuenta" id="cuenta">
 								<span class="icons">
 									<img src="./icons/menuprincipal/cuenta.png">
 								</span>
-							<span id="accountTxt" class ="texto">Cuenta</span>
-						</li>
-					</ul>
+								<span id="accountTxt" class="texto">Cuenta</span>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="./js/bootstrap.js"></script>
-<script type="text/javascript" src="js/Constants.js"></script>
-<script type="text/javascript" src="./script.js"></script>
-<script>
-	var valor = checkCookie(NomSecion);
-	if(valor == false){
-		valor = "inicio";
-	}
-	$("#"+valor).addClass("itemselected");
-</script>
+	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="./js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/Constants.js"></script>
+	<script type="text/javascript" src="./script.js"></script>
+	<script>
+		var valor = checkCookie(NomSecion);
+		if (valor == false) {
+			valor = "inicio";
+		}
+		$("#" + valor).addClass("itemselected");
+	</script>
 </body>
+
 </html>
