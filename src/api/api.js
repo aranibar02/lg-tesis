@@ -1,8 +1,12 @@
 /** Handler request **/
 async function get(url,headers){
-    const response = await fetch(url, config);
-    const data = await response.json();
-    return data;
+    try{
+        const response = await fetch(url, headers);
+        const data = await response.json();
+        return data;
+    }catch(e){
+        console.log(e)
+    }
 }
 
 async function post(url, body){

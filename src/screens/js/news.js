@@ -1,3 +1,15 @@
+
+//#region globals
+var page_size = 10;
+var config = {
+  method: "GET",
+  headers: {
+    "x-rapidapi-host": `${NEWS_API_HOST}`,
+    "x-rapidapi-key": `${NEWS_API_KEY}`,
+  },
+};
+var newsData;
+//#endregion
 var mockData = {
   status: "ok",
   total_hits: 562,
@@ -222,31 +234,146 @@ var mockData = {
     media: "True",
   },
 };
-(async function () {
-  const location = window.location.href;
-  const q = location.split("?");
-  const topic = q.length > 1 ? q[1] : "world";
-  config = {
-    method: "GET",
-    headers: {
-      "x-rapidapi-host": `${NEWS_API_HOST}`,
-      "x-rapidapi-key": `${NEWS_API_KEY}`,
-    },
-  };
-  //   const data = await get(
-  //     SEARCH_FREE(`page_size=10&lang=es&media=True&q=${topic}`, config)
-  //   );
-  const data = mockData;
-  render(data);
-})();
 
-function render(data) {
-  console.log("data", data.articles);
+//#region Utils
+const select_menu_item = (past, current) => {
+  past.removeClass(`menu__item__selected active`);
+  current.addClass(`menu__item__selected active`);
+  current.mouseover();
+}
+
+const select_body_item = (past, current) => {
+  past.removeClass(`body__item_selected active`);
+  current.addClass(`body__item_selected active`);
+}
+const control_magic_remote_back = (e) => {
+
+  const past = $(`.back`); 
+  const size = $(`.itemmenu`).length;
+  console.log(size);
+  switch(e.keyCode){
+    case 13:
+        window.location.href = "index.html";
+        break; 
+    case 37:
+        return;
+    case 38:
+        console.log(`size: ${size}`)
+        const current = $(`.itemmenu[col=0][row=${size}]`);
+        select_menu_item(past, current);
+        break;
+    case 39:
+        return;
+    case 40:
+        break;
+  };
+};
+const control_magic_remoto_menu = (e, row) => {
+  const past = $(`.menu__item__selected.active`); 
+  const size = $(`.itemmenu`).length;
+
+  switch(e.keyCode){
+      case 13:
+          //press ok
+          break; 
+      case 37:
+          return;
+      case 38:
+          row = row - 1;
+          if(row <= 0){
+            return;
+          }else{
+            const current = $(`.itemmenu[col=0][row=${row.toString()}]`);
+            select_menu_item(past, current);
+          }
+          break;
+      case 39:
+          // press right
+          const current =$(`.new[col=1][row=1]`);
+          select_body_item(past, current);
+          break; 
+      case 40:
+          row = row + 1;
+          console.log(row);
+          if(row > size) {
+            const current = $(`.back`);
+            select_menu_item(past, current);
+          }
+          else {
+            const current = $(`.itemmenu[col=0][row=${row.toString()}]`);
+            select_menu_item(past, current);
+          }
+          break;
+  };
+}
+
+const control_magic_remote_body = (e, row) => {
+  const size = $(`.new`).length;
+  const past = $(`.new.body__item_selected`);
+  const scrollBody = $(`.contenido`);
+  //const displacement = parseInt(scrollBody.height())/parseInt(size);
+  //console.log(displacement);
+  switch(e.keyCode){ 
+      case 37:
+          const current = $(`.itemmenu.menu__item__selected`);
+          select_menu_item(past, current);
+          return;
+      case 38:
+          // press top
+          row = row - 1;
+          if(row <= 0) {return;}
+          else{
+              const current = $(`.new[col=1][row=${row.toString()}]`);
+              scrollBody.animate({scrollTop: (row - 1)*300}, 300);
+              select_body_item(past, current);
+          }
+          break;
+      case 39:
+          // press right
+          return; 
+      case 40:
+          // press bottom
+          row = row + 1;
+          if( row > size) {return;}
+          else{
+              const current = $(`.new[col=1][row=${row.toString()}]`);
+              scrollBody.animate({scrollTop: (row - 1)*300}, 300);
+              select_body_item(past, current);
+              //scrollBody.scrollTop(displacement*(-1));
+          } 
+          break;
+  };
+};
+const control_magic_remoto = () => {
+  $('body').bind("keydown", function(e){
+      
+      const element = $(`.active`);
+      let row = parseInt(element.attr(`row`));
+      let col = parseInt(element.attr(`col`)); 
+      console.log(row);
+      switch(col){
+          case 0:
+              control_magic_remoto_menu(e, row)
+              //$(`.scroll__body`).css(`overflow-y`, `hidden`);
+              break;
+          case 1:
+              control_magic_remote_body(e, row);
+              //$(`.scroll__body`).css(`overflow-y`, `scroll`);
+              break;
+          case 4:
+              control_magic_remote_back(e);
+          default:
+              break;
+      }
+    });
+}; 
+
+const render_body = (data) => {
   var wrapper = document.getElementById("Contenido");
   var html = data.articles
     .map((item, index) => {
       return `
-        <div class="new">
+        <div class="new ${index > 0 ? "" : "body__item_selected active"}" col="1" row="${index + 1}">
             <div class="new__image_container">
                 <img class="new__image" src="${item.media}" alt="${
         item.author
@@ -257,7 +384,7 @@ function render(data) {
                     ${item.title}
                 </div>
                 <div class="new__metadata">
-                    <span>${item.author.substr(0, 15)}</span>
+                    <span>${item.author ? item.author.substr(0, 15) : "Anónimo"}</span>
                     <span>
                         ${new Date(item.published_date).toLocaleString()}
                     </span>
@@ -273,3 +400,28 @@ function render(data) {
     .join(" ");
   wrapper.innerHTML = html;
 }
+//#endregion
+
+
+(async function () {
+  const location = window.location.href;
+  const q = location.split("?");
+  const topic = q.length > 1 ? q[1] : "world";
+  //newsData = await get(SEARCH_FREE(`page_size=10&lang=es&media=True&q=${topic}`), config);
+  //const data = mockData;
+  render_body(mockData);
+  control_magic_remoto();
+  $(`.itemmenu`).mouseover(async function(){
+    /*var topic = $(this).attr(`topic`);
+    var result  = await get(SEARCH_FREE(`page_size=10&lang=es&media=True&q=${topic}`), config);
+    newsData = result;
+    render_body(newsData); 
+    */
+    /*var filterData = productResult.data.filter(e => e.product_category_id === parseInt(serial));
+    console.log(filterData);
+    renderBody(filterData, 1);
+    */
+});
+})();
+
+

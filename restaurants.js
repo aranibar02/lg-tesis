@@ -12,7 +12,6 @@ if(params.length > 1){
   serviceUrl = `https://ires2-tesis-backend.herokuapp.com/api/v1/restaurants`;
 }
 
-
 //var PlatoId = 0;
 //var ServicioId = 0;
 

@@ -19,11 +19,11 @@
 }
 
 .selected {
-  background-color: #0069D9;
+  background-color: #0388C1;
   color: white;
 }
 
-.selected button {
+.btn-selected {
   background-color: white;
   color: black;
 }

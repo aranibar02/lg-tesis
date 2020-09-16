@@ -2,6 +2,215 @@
 /*----------------------------------------
     Pre Loader
 ------------------------------------------*/
+
+@font-face {
+    font-family: Montserrat;
+    src: url(../font/Montserrat/Montserrat-SemiBold.ttf);
+}
+
+.itemmenu:hover{
+    background-color: blue !important;
+    transition: 0.5s linear;
+    border-radius: 0 !important;
+}
+
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Montserrat',sans-serif;
+}
+
+
+.modal-body {
+
+}
+
+.sidenav {
+    height: 100%;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    justify-content: center;
+}
+
+.sidenav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+    width: 100%;
+    padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
+    background-color: #284686;
+    overflow: hidden;
+    display: block;
+    vertical-align: middle;
+}
+
+.content {
+    position: absolute;
+    width: 100%; /* = 100% - 2*5% padding */
+}
+
+.content .rs {
+    width: 100%;
+    display: block;
+}
+
+.content p {
+    color: black;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+
+.imgser {
+    height:100%;
+    overflow: hidden;
+    display: block;
+}
+
+.itemmenu {
+    width : 100%;
+    /*padding-bottom: 14%;  = width for a 1:1 aspect ratio */
+    background-color: #E5E5E5;
+    overflow: hidden;
+    display: block;
+    transition: 0.3s linear;
+    height: 20%;
+    position: relative;
+}
+
+.itemmenux {
+    width: 100%;
+    padding-bottom: 14%; /* = width for a 1:1 aspect ratio */
+    background-color: #EEEEEE;
+    overflow: hidden;
+    display: block;
+    transition: 0.3s linear;
+}
+
+.itemselected {
+    background-color: #0388C1 !important;
+    color: white;
+    transition: 0.3s linear;
+}
+
+
+.table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.table-cell {
+    margin-top: 64px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.main {
+    margin-left: 30%;
+    background-color: white;
+    position: fixed;
+    height: 100%;
+    width: 70%;
+}
+
+.maintitle p {
+    color: black;
+    text-align: left;
+    margin:40px;
+    font-family: Montserrat;
+    font-size: 35px;
+}
+
+.maintitle {
+    width: 100%;
+    height: 15%;
+    overflow: hidden;
+    display: block;
+}
+
+.listservicio{
+}
+.listservicio ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.itemservicio {
+    width: 90%;
+    background-color: #EEEEEE;
+    display: block;
+    margin: 10px;
+}
+
+.itemservicioselect {
+    background-color: #E5E5E5;
+}
+.itemservicio .iscontent
+{
+
+}
+
+.itemservicio .istitle
+{
+    color: black;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 30px;
+}
+.itemservicio .isdescr
+{
+
+}
+.itemservicio .rs {
+    width:20%;
+    height: 50%;
+    display: block;
+    margin-top: 30px;
+    margin-left: 20px;
+
+}
+
+.itemservicio .buttoninfo{
+    background-color: #284686;
+    height: 40px;
+    width: 190px;
+    border-radius: 5px;
+}
+.back{
+    position: absolute;
+    width: 80px;
+    background-color: #7b7b7b;
+    bottom: 50px;
+    left: 50px;
+    padding: 15px;
+    border-radius: 10px;
+}
+.main-list.col-4{
+    max-width: 30% !important;
+    height: 100%;
+}
+.contenido.col-8{
+    max-width: 70% !important;
+    height: 100%;
+}
+a.grid.active .back {
+    background-color: #0388C1 !important;
+    transition: 0.5s linear;
+}
+a.grid .back{
+    transition: 0.5 linear;
+}
+
 .Activo {
     display: block;
 }
@@ -212,14 +421,12 @@
     /* duration: 360 * ARCTIME / (ARCSTARTROT + (360-ARCSIZE)) */
     -webkit-animation: container-rotate 1568ms linear infinite;
     animation: container-rotate 1568ms linear infinite;
-    transition: 0.7s linear;
 }
 /*=================================================================================*/
 
 
 .container-fluid{
     height: 100%;
-    overflow-y: hidden;
 }
 .row{
     height: 100%;
@@ -245,13 +452,14 @@ h1{
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
+    padding-top: 60px;
 }
 .main-list ul{
     padding: 0;
     margin: 0;
 }
 .sidebar{
-    height: 30%;
+    height: 40%;
 }
 /* .itemmenu{
     padding: 0;
@@ -277,31 +485,35 @@ h1{
     max-height: 55%;
     height: 100%;
 }
-
-.img-dtl2{
-    max-width: 100%;
-    overflow: hidden;
-    height: 100%;
-}
 .img-dtl .img-rest{
     height: 100%;
 }
 .card-box{
     transition: 0.4s linear;
-    width: 1200px;
-    height: 470px;
+    text-align: center;
+    background: #dedede;
+    margin: 1.3%;
 }
 .card-box.card-box-c{
     background-color: #e1e0e0;
 }
 .card-box .info .rest-img{
-    width: 315px;
-    height: 216px;
+    /*width: 90%;*/
     vertical-align: top;
+    margin: 6% 0 0 0;
+    height:300px;
+}
+
+.card-box .info .rest-img2{
+    width: 90%;
+    vertical-align: top;
+    margin: 6% 0 0 0;
+    height:300px;
 }
 .card-box .info .rest-info{
+    margin: 6% 0 0 0;
     display: inline-block;
-    width: 71%;
+    width: 100%;
     font-size: 30px;
 }
 .card-box .info .rest-info p{
@@ -323,29 +535,12 @@ h1{
 .card-box .info .rest-info .reserva:active{
     background-color: #0388C1 !important;
 }
-.rest-infoDiv {
-    display: inline-block;
-    width: 100%;
-    font-size: 30px;
-}
-.card-box .info .rest-info p{
-    line-height: 1.2;
-}
-.card-box .info .rest-infoDiv .more-info,
-.card-box .info .rest-infoDiv .reserva{
-    float: right;
-    color: #FFF;
-    font-size: 25px;
-    padding: 20px 30px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 15px;
-    background-color: #284686;
-    width: 290px;
-}
-.card-box .info .rest-infoDiv .more-info:active,
-.card-box .info .rest-infoDiv .reserva:active{
-    background-color: #0388C1 !important;
+
+.col-44 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 30.333333%;
+    height:480px;
 }
 .restaurantes{
     overflow-y: scroll;
@@ -377,7 +572,7 @@ h1{
     background-color: #284686;
 }
 .card-box.active{
-    background-color: #e1e0e0;
+    background-color: #0388c1;
     transition: 0.4s linear;
 }
 .card-box.active .more-info{
@@ -388,19 +583,186 @@ h1{
 }
 .itemmenu .item p{
     margin: 0;
+    width: 500px;
 }
 .serv-rest{
-    margin-top: 5rem;
+    /*margin-top: 5rem;*/
     margin-bottom: 3rem;
 }
 
-.image-list-container {
-    width: 384px;
-    height: 216px;
+.precio {
+    padding-top: 20px;
 }
 
-/* resize images */
-.image-list-container img {
-    width: 384px;
-    height: 216px;
+/*=================================================================================*/
+/* opcion extra */
+.pickers{
+    font-size: 2rem;
+    height: 500px;
+    width: 200px;
+    margin-left:80px;
 }
+.pickers .cantidades{
+    height: 50%;
+}
+.pickers .cantidades .title,
+.pickers .cantidades .cantidad{
+    display: inline-block;
+}
+.pickers .cantidades .title{
+    margin-right: 30px;
+}
+.pickers .cantidades .cantidad span{
+    display: inline-block;
+    width: 120px;
+    height: 180px;
+    margin: 30px;
+    padding-top: 65px;
+    padding-bottom: 65px;
+    background: #e0e1e1;
+    position: relative;
+    font-style: italic;
+    text-align: center;
+}
+.pickers .icon-uf{
+    width: 50px;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.pickers .icon-df{
+    width: 50px;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.price{
+    top:220px;
+    left:350px;
+    position: absolute;
+    display: block;
+}
+
+.confirmardiv button{
+    height: 80px;
+    width: 260px;
+    float: right;
+    font-size: 30px;
+}
+.buttons{
+    position: absolute;
+    display: block;
+    top:200px;
+    left:500px;
+}
+.buttons .confirm-compra,
+.buttons .cancel-compra{
+    width: 200px;
+    height: 50px;
+    font-size: 18pt;
+    margin-bottom:10px;
+}
+
+#cantidadSpan.active{
+    border-radius: 0 !important;
+}
+a.grilla.active .back{
+    background-color: #454444;
+    transition: 0.5s linear;
+    border-radius: 0 !important;
+}
+a.grilla .back{
+    transition: 0.5 linear;
+}
+span.grilla id.active{
+    background-color: #6a6868 !important;
+    transition: 0.5s linear;
+    border-radius: 0 !important;
+}
+span.grilla{
+    transition: 0.5s;
+}
+button.grilla.active{
+    background-color: #0388C1 !important;
+    transition: 0.5s linear;
+    border-radius: 0 !important;
+}
+button.grilla{
+    transition: 0.5s linear;
+    background-color: #284686 !important;
+}
+
+
+.store_action_minus{
+    border: 1px solid black;
+    border-right: none;
+    padding: 0.5rem 1rem;
+    border-radius: 16px 0 0 16px;
+    margin: 0;
+  }
+  .store_action_count{
+      border: 1px solid black;
+    padding: 0.5rem 1rem;
+      margin: 0;
+    border-left: none;
+    border-right:none;
+  }
+  .store_action_plus{
+      border: 1px solid black;
+    padding: 0.5rem 1rem;
+    border-left:none;
+    border-radius: 0px 16px 16px 0px;
+    
+  }
+  
+  .store__title {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  
+  .store__main_image {
+    position: relative;
+  }
+  
+  .store__close_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 16px;
+    outline: none;
+    background: transparent;
+    border: none;
+  }
+  
+  .store_action_plus:focus {
+   outline: none
+  }
+  .store_action_minus:focus {
+   outline: none
+  }
+  .store_action_count:focus {
+   outline: none
+  }
+  
+  .store__close_button:focus {
+    outline: none
+  }
+  
+  .store__close_button span{
+    font-size: 1.5rem;
+  }
+
+  .menu__item__selected {
+    background-color: #0388C1 !important;
+      color: white;
+      transition: 0.3s linear;
+  }
+  
+  .body__item_selected {
+    background-color: #e1e0e0;
+    transition: 0.4s linear;
+  }
+

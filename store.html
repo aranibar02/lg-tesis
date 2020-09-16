@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="./src/screens/css/store.css">
+	<link rel="stylesheet" type="text/css" href="./css/reserva.css">
+	<script type="text/javascript" src="master.js"></script>
+	<script type="text/javascript">
+		var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=window[sdkInstance],aisdk=window[aiName]||function(e){function n(e){t[e]=function(){var n=arguments;t.queue.push(function(){t[e].apply(t,n)})}}var t={config:e};t.initialize=!0;var i=document,a=window;setTimeout(function(){var n=i.createElement("script");n.src=e.url||"https://az416426.vo.msecnd.net/scripts/b/ai.2.min.js",i.getElementsByTagName("script")[0].parentNode.appendChild(n)});try{t.cookie=i.cookie}catch(e){}t.queue=[],t.version=2;for(var r=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];r.length;)n("track"+r.pop());n("startTrackPage"),n("stopTrackPage");var s="Track"+r[0];if(n("start"+s),n("stop"+s),n("addTelemetryInitializer"),n("setAuthenticatedUserContext"),n("clearAuthenticatedUserContext"),n("flush"),!(!0===e.disableExceptionTracking||e.extensionConfig&&e.extensionConfig.ApplicationInsightsAnalytics&&!0===e.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)){n("_"+(r="onerror"));var o=a[r];a[r]=function(e,n,i,a,s){var c=o&&o(e,n,i,a,s);return!0!==c&&t["_"+r]({message:e,url:n,lineNumber:i,columnNumber:a,error:s}),c},e.autoExceptionInstrumented=!0}return t}(
+				{
+					instrumentationKey:"5453f334-40db-4a38-8a91-88fb881cc0b4"
+				}
+		);window[aiName]=aisdk,aisdk.queue&&0===aisdk.queue.length&&aisdk.trackPageView({});
+	</script>
+</head>
+<body>
+	
+	<div class="modal fade" id="store__modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<img id="store__image" src="" width="100%" class="card-img-top store__main_image" alt="..."/>
+				<button type="button" class="store__close_button" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body store__body">
+				<div class="store__title">
+				 
+				</div>
+				<div class="d-flex justify-content-between align-items-center m-2">
+				  <h4 class="store__amount">
+				           
+				  </h4>
+				  <div class="d-flex">
+					<button class="store_action_minus">-</button>
+					<button class="store_action_count">1</button>
+					<button class="store_action_plus">+</button>
+				  </div>
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Atras</button>
+				<button type="button" class="btn btn-primary">Comprar</button>
+			  </div>
+			</div>
+		  </div>
+	</div>
+
+
+	<!-- <div w3-include-html="master.html"></div> -->
+    <div id="loader-wrapper" class="Oculto">
+        <div id="loader"></div>        
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="main-list col-4 pl-0 pr-0">
+				<div class="logo2">
+					<h1 id="storeTitle" class="title"> </h1>
+				</div>
+				<ul class="sidebar">
+				</ul>
+				<div class="img-dtl">
+					<img class="img-rest" src="../../assets/icon/ser1.jpg">
+					<a href="index.html" class="grid" id="ColumCategoria_6" value="6" column="1" row="6">
+						<img src="../../assets/icon/left-arrow.png" class="back">
+					</a> 
+				</div>
+			</div>
+			<div class="col-8 contenido" id="content-wrapper">
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="store__confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<img src="../../assets/icon/confirm-icon.svg">
+					<p id="buySucceded" class="mt-5">¡Se añadió el producto a tu cuenta!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./src/constants/constants.js"></script>
+    <script type="text/javascript" src="./src/api/api.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="./src/screens/js/store.js"></script>
+    <!--
+    <script type="text/javascript" src="./js/helper.js"></script>
+    <script type="text/javascript" src="./js/tienda.js"></script>
+    -->
+	<script>
+		/*$("#1_Inicio").addClass("itemselected");
+		$(".cancel-modal").addClass("active");
+        $('#ActiveModal1').addClass("active");
+        */
+	</script>
+</body>
+</html>

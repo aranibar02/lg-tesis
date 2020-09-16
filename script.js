@@ -4,8 +4,17 @@ var ModalAct = 0;
 var i = 0;
 var ModalShow = false;
 
-$(document).bind("keydown", function (e) {
 
+
+
+
+
+
+
+
+
+$(document).bind("keydown", function (e) {
+	console.log(e.wich);
 	var $prev, $next, $current = $("ul li.itemselected");
 	if (e.which === 40 ) {
 		console.log("down ");
@@ -232,7 +241,7 @@ function ingreso(){
 			if(CaseClick == 1)
 				window.location.replace("lreserva.html");
 			else if(CaseClick == 2 )
-				window.location.replace("cuenta.html");
+				window.location.replace("./shoppingSummary.html");
 			else if(CaseClick == 3 ){
 				closemodal("accountModal");
 			}
@@ -271,18 +280,18 @@ function ingreso(){
 				case "inicio":InfoTelo();
 					console.log("inicio");break;
 				case "servicios":
-					window.location.replace("servicios.html");
+					window.location.replace("services.html");
 					break;
 				case "tienda":
 					console.log("tienda");
-					window.location.replace("tienda.html");
+					window.location.replace("./store.html");
 					break;
 				case "serviciosexternos":
 					console.log("serviciosexternos");
 					window.location.replace("clima.html");
 					break;
 				case "bandeja":
-					window.location.replace("mensajes.html");
+					window.location.replace("./touristicPlaces.html");
 					break;
 				case "cuenta":ModalActivo();console.log("cuenta");
 					break;

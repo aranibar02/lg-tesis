@@ -40,3 +40,15 @@
   color: #666;
   font-size: 0.9rem;
 }
+
+
+.menu__item__selected {
+  background-color: #0388C1 !important;
+	color: white;
+	transition: 0.3s linear;
+}
+
+.body__item_selected {
+  background-color: #e1e0e0;
+  transition: 0.4s linear;
+}

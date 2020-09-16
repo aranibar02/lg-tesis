@@ -97,7 +97,7 @@ $('body').bind("keydown", function(e){
             }else{
                 if(column==1){
                     Activa = true;
-                }
+                }   
                 Subrow = 0;
                 ActualizaGrid(column, row, Activa, Subrow);
 
