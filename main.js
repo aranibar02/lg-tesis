@@ -32,6 +32,23 @@ connection.addEventListener('message', e => {
     let current;
     const pathname = window.location.pathname.split("/").pop();
     switch(screen){
+        case `bookings`:
+            break;
+        case `services`:
+            const serviceType = parameters.find(x => x.name === `serviceType`);
+            const serviceTypeValue = serviceTye ? serviceType.value : null;
+            
+            if(parameters.length <=0) resource = `service.html`;
+            else if(serviceTypeValue){
+                if(pathname.indexOf(`service.html`) === -1){
+                    resource = `events.html?${serviceTypeValue}`;
+                }else{
+                    past = $(`.itemmenu.itemselected`);
+                    current = $(`.itemmenu[topic=${serviceTypeValue}]`);
+                    select_item_menu(past, current);
+                }
+            }
+            break;
         case `events`:
             const eventType = parameters.find(x => x.name === `eventType`);
             const eventTypeValue = eventType ? eventType.value : null;
