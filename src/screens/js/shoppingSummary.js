@@ -1,37 +1,80 @@
+//#region 
+var lastItem = 0;
+var language = '';
+var currency = '';
+//#endregion
 
-(async function(){
 
-    try{
-            const mockAccount = [
-        {
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
 
-            currencySymbol: `S/.`,
-            total_amount: 244.50,
-            billing_date: `27/03/2019 - 29/04/2019`
-        }
-    ];
-        const result = await get(ENDPOINT_GET_TRANSACTIONS, {method: 'GET'});
-        const transactions = result.data;
-        const transactionsGuest = result.data.filter(e => e.guest_id === GUEST_ID);
-        renderSideBar(mockAccount);
-        renderBody(transactionsGuest);
-        control_magic_remoto();
-    }catch(ex){
-        console.log(ex)
+
+
+  const get_price_format = (price) => {
+    let text = '';
+    switch(currency){
+      case 'soles':
+        text = `${SOL_SYMBOL} ${price}`;
+        break;
+      case 'dolares':
+        text = `${USD_SYMBOL}${toDollars(price).toFixed(2)}`;
+        break;
+      case 'euros':
+        text = `${toEuros(price).toFixed(2)} ${EURO_SYMBOL}`;
+        break;
+      default:
+        text = `${SOL_SYMBOL} ${price.toFixed(2)}`;
+        break;
     }
-})();
+    return text;
+  }
+//$13.95
+//28,06 €
+//S/ 825
 
+
+
+const select_back_button  = (past, current) => {
+    past.removeClass('active');
+    current.addClass('itemselected active');
+};
+
+const show_loader = () =>{
+    $('#loader-wrapper').addClass('Activo').removeClass('Oculto');
+};
+
+const hide_loader = () =>{
+    $('#loader-wrapper').addClass('Oculto').removeClass('Activo');
+};
+
+const get_account_data = async(guestId) => {
+    try{
+      const response = await get(ENDPOINT_ACCOUNT_BY_GUEST(guestId), { method: 'GET' });
+      const data = response.data.length > 0 ? response.data[0] : {};
+      return data;
+    }catch(ex){
+      console.log(ex);
+    }
+  };
 
 function selectItem(past,current){
     past.removeClass(`itemselected active`)
     current.addClass(`itemselected active`);
 } 
 
-function control_magic_remoto_back(e){
+function control_magic_remote_back(e){
     const past = $(`.itemselected`); 
     switch(e.keyCode){
         case 13:
             //press ok
+            window.location.replace('index.html');
             break; 
         case 37:
             return;
@@ -39,7 +82,7 @@ function control_magic_remoto_back(e){
             return;
         case 39:
             // press right
-            const current =$(`.itembody[col=1][row=1]`);
+            const current =$(`.itembody[col=1][row=${lastItem}]`);
             selectItem(past, current);
             break; 
         case 40:
@@ -51,7 +94,7 @@ function control_magic_remote_body(e, row){
     
     const size = $(`.itembody`).length;
     const past = $(`.itemselected`);
-    const scrollBody = $(`.scroll__body`);
+    const scrollBody = $(`#ScrollRes`);
     const displacement = parseInt(scrollBody.height())/parseInt(size);
     console.log(displacement);
     switch(e.keyCode){
@@ -60,8 +103,8 @@ function control_magic_remote_body(e, row){
             break; 
         case 37:
             // press left
-             const current = $(`.back__home`);
-             selectItem(past,current);
+             const current = $(`.back`);
+             select_back_button(past,current);
             break;
         case 38:
             // press top
@@ -88,6 +131,8 @@ function control_magic_remote_body(e, row){
             } 
             break;
     };
+
+    lastItem = row;
 };
 
 function control_magic_remoto(){
@@ -97,8 +142,8 @@ function control_magic_remoto(){
         let col = parseInt(element.attr(`col`)); 
 
         switch(col){
-            case 0:
-                control_magic_remoto_back(e)
+            case 4:
+                control_magic_remote_back(e)
                 //$(`.scroll__body`).css(`overflow-y`, `hidden`);
                 break;
             case 1:
@@ -112,110 +157,74 @@ function control_magic_remoto(){
  }; 
 
 
-var onlist = false;
-var Activa = true;
-var Subcolumn = 1;
-var Subrow = 0;
-var TotalRows = 0;
-/*
-$('body').bind("keydown", function(e){
-    var column = $('.grid.active').attr('column');
-    var row = $('.grid.active').attr('row');
-	if(column == undefined){
-		console.log('undefined12');
-		$('.grid[column=1][row=1]').addClass('itemselected');
-		$('.grid[column=1][row=1]').addClass('active');
-		$('.subgrid[column=1][row=1]').addClass('itemselected');
-		$('.subgrid[column=1][row=1]').addClass('active');
-		$('.contenido .gym').show();
-		$('.contenido .fondo').hide();
-	}
-    if(e.keyCode === 39){
-        console.log('right');
-		Activa = false;
-        column = parseInt($('.grid.active').attr('column'));
-        row = 1;
-		Subrow = 0;
-		//$('.grid[column=1][row="4"]').removeClass('active');
-		//$('.grid[column=1][row='+row+']').addClass('active');
-    }
-	else if(e.keyCode === 37){
-        console.log('left');
-		Activa = true;
-        column = parseInt($('.grid.active').attr('column'));
-        row = 4;
-		Subrow = 0;
-		$('.grid[column=1][row="1"]').removeClass('active');
-		$('.grid[column=1][row='+row+']').addClass('active');
-    }
-	else if(e.keyCode === 40){
-        console.log('down');
-        column = parseInt($('.grid.active').attr('column'));
-        row = parseInt($('.grid.active').attr('row'))+1;
-        if(Subrow <= TotalRows){
-            Subrow = Subrow + 1;
-            var ScrollDown	= Subrow*140;
-            $("#ScrollRes").animate({ scrollTop: ScrollDown }, (300));
-        }
-    }
-	else if(e.keyCode === 38){
-        console.log('up');
-        column = parseInt($('.grid.active').attr('column'));
-        row = parseInt($('.grid.active').attr('row'))-1;
-		if(Subrow > 0){
-            Subrow = Subrow - 1;
-            var ScrollUp	= Subrow*140;
-            $("#ScrollRes").animate({ scrollTop: ScrollUp }, (300));
-        }
-    }
-	else if(e.keyCode === 13){
-        console.log('enter');
-		redirect();
-    }
-})
+ const init = () => {
+     $('#moduleTitle').text(CONFIGURATION[language].module_account_header_name);
+     $('#period').text(CONFIGURATION[language].module_account_period_name);
+     $('#amount').text(CONFIGURATION[language].module_account_amount_name);
+     $('#transaction-subheader').text(CONFIGURATION[language].module_account_subheader_name);
+     $('#table-date').text(CONFIGURATION[language].module_account_table_date_name);
+     $('#table-time').text(CONFIGURATION[language].module_account_table_time_name);
+     $('#table-description').text(CONFIGURATION[language].module_account_table_description_name);
+     $('#table-amount').text(CONFIGURATION[language].module_account_table_amount_name);
+ };
 
-if($('.sidebar .restaurante').hasClass('itemselected')){
-    console.log('rest');
-}else if($('.sidebar .spa').hasClass('itemselected')){
-    console.log('spa');
-}
-var ActivC = 1;
 
-/*
-GetEstanciaData();
-*/
-/*
-$.ajax({
-    url: URL_API_CONFIGURATION,
-    type: 'GET',
-    data : {
-        bookingId : bookingId
-    },
-    async: false,
-    timeout: 60000,
-}).done(function(data){
-    value = data.result;
-    $("#moduleTitle").text(value.fifhtSubModuleName);
-    hidePreloader();
-}).fail(function () {
-    hidePreloader();
-});
-*/
 
 function renderSideBar(data){
     const wrapper = $(`.main-list .sidebar`);
     var contentHtml = data.map( (item, key) => {
         return `
         <div style="background: #efefef;padding: 10% ;color: #102042;">
-            <h1>Periodo:</h1>
+            <h1 id="period">Periodo:</h1>
             <h2>${item.billing_date}</h2>
-            <h1>Cuenta:</h1>
-            <h2>${item.currencySymbol} ${item.total_amount}</h2>
+            <h1 id="amount">Cuenta:</h1>
+            <h2>${item.currency_symbol} ${item.total_amount}</h2>
         </div>
         `    
     }).join(` `);
     wrapper.append(contentHtml);
 };
+
+const render_body = (data) =>{
+
+    const wrapper = $(`.contenido`);
+    const html = data.map((item, key) => {
+        const date = new Date(item.transaction_datetime);
+        const hour = date.getHours();
+        const minutes = date.getMinutes();
+        const dateFormat = date.toLocaleDateString("en-US");
+        const time = `${hour}:${minutes}`;
+        return (`
+        <div style="background:#d2d2d2; height: 100px;width: 100%;margin: 3% 0;" class="itembody ${key+1===1?"itemselected":""}" col=1 row=${key+1} serial=${item.id}>
+            <div style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 20%;" >${dateFormat}</div>
+            <div style="text-align: center; FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 15%;text-align: center;" >${time}</div>
+            <div style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 40%;text-align: left;" >${item.transaction_description}</div>
+            <div style="text-align: right;FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 25%;text-align: left;" >${item.currency_symbol} ${item.amount}</div>
+        </div>
+        `)
+    }).join(` `);
+
+    const contentHtml = `
+    <div class="col-12 pl-5 serv-rest" style="display: none;">
+    </div>
+    <div class="col-12 pl-0">
+        <div class="col-12 pl-4 multi-rest">
+            <h1 style="MARGIN: 2% 0;" id="transaction-subheader"></h1>
+            <div style="background: #838383;    height: 100px;">
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 20%;" id="table-date">FECHA</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 15%;text-align: center;" id="table-time">HORA</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 40%;text-align: left;" id="table-description">DESCRIPCIÓN</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 25%;text-align: left;" id="table-amount">MONTO</div>
+            </div>
+            <div  id="ScrollRes" style=" overflow-y: scroll; height:750PX;">
+            ${html}
+            </div>
+        </div>
+    </div>`;
+    wrapper.append(contentHtml);
+};
+    
+
 function renderBody(data){
     const wrapper = $(`.contenido`);
     var contentHtml = `
@@ -261,81 +270,35 @@ function renderBody(data){
     wrapper.append(contentHtml);
 };
 
-/*
-$.ajax({
-    url: URL_API_ACCOUNT_BY_BOOKING,
-    data:{
-        bookingId: bookingId
-    },
-    type: 'GET',
-    async: false,
-    success : function(data){
-        var text = '';
-        var value = data.result;
-        var help = '';
 
-        var html = '';
-        html += '   <div style="background: #efefef;padding: 10% ;color: #102042;" >';
-        html += '       <h1>'+value.periodText+':</h1>';
-        html += '       <h2>'+value.fechaFacturacion+'</h2>';
-        html += '       <h1>'+value.amountHeader.split(' ')[0]+'</h1>';
-        html += '       <h2>'+value.currencySymbol+' '+value.total.toFixed(2)+'</h2>';
-        html += '   </div>';
+(async function(){
 
-        text += '<div class="col-12 pl-5 serv-rest '+help+'" style="display: none;">';
-        text += '</div>';
-        text += '<div class="'+help+' col-12 pl-0 "  data-type="'+help+'">';
-        text += '   <div class="col-12 pl-4 multi-rest">';
-        text += '   <h1 style="MARGIN: 2% 0;">'+value.accountHeader+'</h1>';
-        text += '   <DIV style="background: #838383;    height: 100px;">';
-        text += '       <DIV style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 15%;">'+value.dateHeader+'</DIV>';
-        //text += '       <DIV style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 15%;">'+value.hourHeader+'</DIV>';
-        text += '       <DIV style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 50%;text-align: center;">'+value.descriptionAccountHeader+'</DIV>';
-        text += '       <DIV style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 10%;text-align: right;"">'+value.quantityHeader+'</DIV>';
-        text += '       <DIV style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 25%;text-align: right;;">'+value.amountHeader+'</DIV>';
-        text += '   </DIV>';
-        text += '   <DIV  id="ScrollRes" data-type="'+help+'" style=" overflow-y: scroll; height:750PX;">';
+    try{
+    show_loader();
+    const account = await get_account_data(GUEST_ID);
+    const startDate = new Date(account.billing_date_start).toLocaleDateString("en-US");
+    const endDate = new Date(account.billing_date_end).toLocaleDateString("en-US");
 
-        TotalRows = value.detallesCuenta.length;
-        value.detallesCuenta.forEach(function(serv, key){
-            var id_serv = parseInt(key) + 1;
-            text += '   <input type="hidden" id="service_id_'+value.cuentaId+'_'+id_serv+'"   name="service-id" value="'+serv.detalleCuentaId+'">';
-            text += '   <input type="hidden" id="service-type" name="service-type" value="'+serv.detalleCuentaId+'">';
-            text += '   <DIV style="background:#d2d2d2;    height: 100px;width: 100%;margin: 3% 0;">';
-            text += '       <DIV style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 15%;">'+serv.fechaTransaccion+'</DIV>';
-            //text += '       <DIV style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 15%;">'+serv.horaTransaccion+'</DIV>';
-            text += '       <DIV style="text-align: center; FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 50%;text-align: center;">'+serv.nombreProducto+'</DIV>';
-            text += '       <DIV style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 10%;text-align: right;">'+serv.cantidad+'</DIV>';
-            text += '       <DIV style="text-align: right;FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 25%;text-align: right;">'+serv.subTotal.toFixed(2)+'</DIV>';
-            text += '   </DIV>';
-        })
-        text += '   </DIV>';
-        text += '   </div>'
-        text += '</div>';
+    const config = await get_config_data();
+    language = config.language;
+    currency = config.currency;
 
-        $(".main-list .sidebar").append(html);
-        $(".contenido").append(text);
-    }, error: function (xhr) {
-        console.log(xhr)
+    const result = await get(ENDPOINT_TRANSACTIONS, {method: 'GET'});
+    const transactions = result.data;
+    console.log(transactions);
+    console.log(GUEST_ID);
+    const transactionsGuest = result.data.filter(e => e.guest_id === GUEST_ID);
+
+    renderSideBar([{
+        currency_symbol: account.currency_symbol,
+        total_amount: account.total_amount,
+        billing_date: `${startDate} - ${endDate}`
+    }]);
+    render_body(transactionsGuest);
+    hide_loader();
+    init();
+    control_magic_remoto();
+    }catch(ex){
+        console.log(ex)
     }
-});
-*/
-
-
-function utf8_to_b64( str ) {
-  return window.btoa(unescape(encodeURIComponent( str )));
-}
-
-function b64_to_utf8( str ) {
-  return decodeURIComponent(escape(window.atob( str )));
-}
-function redirect(){
-	window.location.replace("index.html");
-}
-function showPreloader() {
-    $("#loader-wrapper").removeClass("Oculto").addClass("Activo");
-}
-
-function hidePreloader() {
-    $("#loader-wrapper").removeClass("Activo").addClass("Oculto");
-}
+})();

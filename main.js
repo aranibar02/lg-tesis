@@ -8,10 +8,6 @@ console.log('connected');
 
 
 connection.addEventListener('message', e => {
-    
-
-
-
     console.log(`enviado por amazon: ${e.data}`);
     const response = JSON.parse(e.data);
     const screen = response.screen ? response.screen : null;
@@ -23,7 +19,6 @@ connection.addEventListener('message', e => {
     console.log(`screen: ${response}`);
     console.log(`parameters length: ${parameters.length}`);
 
-    let event = response.event
     let resource = ``;
     let param = response.param;
     let arrayURL = [];
@@ -31,17 +26,258 @@ connection.addEventListener('message', e => {
     let past;
     let current;
     const pathname = window.location.pathname.split("/").pop();
+
+    let serviceType;
+    let serviceTypeValue;
+    let service;
+    let serviceValue;
+    let dishType;
+    let dishTypeId;
+
+    //#region general variables 
+    let confirm;
+    let confirmValue;
+    //#endregion
+
+    //#region store variables
+    let productCategory;
+    let productCategoryId;
+    let product;
+    let productId;
+    //#endregion
+
+    //#region facilities
+    let facility;
+    //#endregion
+
+    //#region events variables
+    let event;
+    let eventId;
+    //#endregion
+
+    //#region restaurants variables
+    let dish;
+    let dishId;
+    //#endregion
+
+
+
     switch(screen){
-        case `bookings`:
+        case 'weathers':
+            resource = `clima.html`;
+            break;
+        case 'currencies':
+            const currency = parameters.find(x => x.name === `currency`);
+            const currencyId = currency ? currency.value : null;
+            
+            if(parameters.length <=0){
+                if(pathname.indexOf(`index.html`) === -1){
+                    resource = `index.html?currency`;
+                }else{
+                    CurrencyMod();                   
+                }
+            }else{
+                if(currencyId){
+                    if(pathname.indexOf(`index.html`) === -1){
+                        resource = `index.html?currency?${currencyId}`;
+                    }else{
+                        CurrencyMod();
+                        past = $(`.currbtn.active`);
+                        current = $(`.currbtn[currency-id=${currencyId}]`)
+
+                        setTimeout(() => {
+                            select_currency_option(past, current);    
+                        }, 500);
+                    }
+                }
+            }
+            break;
+        case `languages`:
+            const language = parameters.find(x => x.name === `language`);
+            const languageId = language ? language.value : null;
+            
+            if(parameters.length <=0){
+                if(pathname.indexOf(`index.html`) === -1){
+                    resource = `index.html?language`;
+                }else{
+                    LanguageMod();
+                }
+            }else{
+                if(languageId){
+                    if(pathname.indexOf(`index.html`) === -1){
+                        resource = `index.html?language?${languageId}`;
+                    }else{
+                        LanguageMod();
+                        past = $(`.langbtn.active`);
+                        current = $(`.langbtn[language-id=${languageId}]`)
+                        select_language_option(past, current);
+                    }
+                }
+            }
+            break;
+        case `placesInterest`:
+            const placeType = parameters.find(x => x.name === `placesType`);
+            const placeTypeId = placeType ? placeType.value : null;
+
+            const place = parameters.find(x => x.name === `place`);
+            const placeId = place ? place.value : null;
+
+            if(parameters.length <= 0) resource = `placesInterest.html`;
+            else{
+                if(placeTypeId && !placeId){
+                    if(pathname.indexOf(`placesInterest.html`) === -1){
+                        resource = `placesInterest.html?${placeTypeId}`;
+                      }else{
+                        past = $(`.itemmenu.itemselected`);
+                        current = $(`.itemmenu[serial=${placeTypeId}]`)
+                        select_item_menu(past, current); 
+                      }
+                }
+                if(placeTypeId && placeId){
+                    past = $(`.card-box.active`);
+                    current = $(`.card-box[serial=${placeId}]`);
+                    select_item_body(past, current);
+                }
+            }
+
+            break;
+        case `facilities`:
+            facility = parameters.find(x => x.name === `facility`);
+            facilityValue = facility ? facility.value : null;
+            
+            if(parameters.length <=0) resource = `facilities.html`;
+            else {
+                if(facilityValue){
+                    past = $(`.card-box.active`);
+                    current = $(`.card-box[serial=${facilityValue}]`);
+                    select_item_body(past, current);
+                }
+            }
+            break;
+        case `bookingHistory`:
+            if(parameters.length <=0) resource =  `lreserva.html`;
+            break;
+        case `restaurants`:
+
+            const restaurant = parameters.find(x => x.name === `restaurant`);
+            const restaurantId = restaurant ? restaurant.value : null;
+
+            dishType = parameters.find(x => x.name === `dishType`);
+            dishTypeId = dishType ? dishType.value : null;
+
+            dish = parameters.find(x => x.name === `dish`);
+            dishId = dish ? dish.value : null
+            
+            if(restaurantId && dishTypeId && !dishId){
+                resource = `restaurants.html?${restaurantId}?${dishTypeId}`;
+            }
+            if(restaurantId && dishTypeId && dishId){
+                past = $(`.card-box.active`);
+                current = $(`.card-box[serial=${dishId}]`);
+                select_item_body(past, current); 
+            }
+            break;
+        case `booking`:
+
+            serviceType = parameters.find(x => x.name === `serviceType`);
+            serviceTypeValue = serviceType ? serviceType.value : null;
+            
+            service = parameters.find(x => x.name === `serviceId`);
+            const serviceId = service ? service.value : null;
+
+            dishType = parameters.find(x => x.name === `dishType`);
+            dishTypeId = dishType ? dishType.value : null;
+
+            dish = parameters.find(x => x.name === `dishId`);
+            dishId = dish ? dish.value : null;
+
+            const date = parameters.find(x => x.name === `date`);
+            const dateValue = date ? date.value : null;
+            
+            const time = parameters.find(x => x.name === `time`);
+            const timeValue = time ? time.value : null;
+
+            confirm = parameters.find(x => x.name === `confirm`);
+            confirmValue = confirm ? confirm.value : null;
+
+            if(serviceTypeValue && !serviceId && !dateValue && !timeValue && !confirmValue){
+                if(pathname.indexOf(`services.html`) === -1){
+                    resource = `services.html?${serviceTypeValue}`;
+                }else{
+                    past = $(`.itemmenu.itemselected`);
+                    current = $(`.itemmenu[topic=${serviceTypeValue}]`);
+                    select_item_menu(past, current);
+                }
+            }
+            if(serviceTypeValue && serviceId && !dateValue && !timeValue && !confirmValue){
+                
+                if(serviceTypeValue === 'restaurantes'){
+                    if(!dishTypeId){
+                        resource = `restaurants.html?${serviceId}`;
+                    }else if(dishTypeId && !dishId){
+                        if(pathname.indexOf(`restaurants.html`) === -1){
+                            resource = `restaurants.html?${serviceId}?${dishTypeId}`;
+                        }else{
+                            past = $(`.itemmenu.itemselected`);
+                            current = $(`.itemmenu[unique-key=${dishTypeId}]`);
+                            select_item_menu(past, current);
+                        }
+                    }else if(dishTypeId && dishId){
+                        resource = `booking.html?${serviceTypeValue}?${serviceId}?${dishId}?NULL?NULL`;
+                    }   
+                }else{
+                    if(pathname.indexOf(`booking.html`) === -1){
+                        resource = `booking.html?${serviceTypeValue}?${serviceId}?${dishId ? dishId : 'NULL'}?NULL?NULL`;
+                    }else{
+                        //change name label
+                        set_service_name(serviceTypeValue, serviceId, dishId);
+                    }
+                }
+            }
+            if(serviceId && dateValue && !timeValue && !confirmValue){
+                if(pathname.indexOf(`booking.html`) === -1){
+                        resource = `booking.html?${serviceTypeValue}?${serviceId}?${dishId ? dishId : 'NULL'}?${dateValue}?NULL`;
+                }else{
+                        console.log("hola miundo estamos acpa");
+                        set_service_name(serviceTypeValue, serviceId, dishId);
+                        set_date(dateValue);
+                        //change date
+                }
+            }
+            if(serviceId && dateValue && timeValue && !confirmValue){
+                if(pathname.indexOf(`booking.html`) === -1){
+                        resource = `booking.html?${serviceTypeValue}?${serviceId}?${dishId ? dishId : 'NULL'}?${dateValue}?${timeValue}`;
+                }else{
+                        set_service_name(serviceTypeValue, serviceId);
+                        set_date(dateValue);
+                        console.log(timeValue);
+                        set_time(timeValue);
+                }
+            }
+
+            if(serviceId && dateValue && timeValue && confirmValue){
+                if(pathname.indexOf(`booking.html`) === -1){
+                        resource = `booking.html?${serviceTypeValue}?${serviceId}?${dishId ? dishId : 'NULL'}?${dateValue}?${timeValue}`;
+                }else{
+                        set_service_name(serviceTypeValue, serviceId);
+                        set_date(dateValue);
+                        console.log(timeValue);
+                        set_time(timeValue);
+                        const dateFormat = `${date.value}T${timeValue}`;
+                        postBooking(dateFormat);
+                }
+            }
+            
             break;
         case `services`:
-            const serviceType = parameters.find(x => x.name === `serviceType`);
-            const serviceTypeValue = serviceTye ? serviceType.value : null;
+
+            serviceType = parameters.find(x => x.name === `serviceType`);
+            serviceTypeValue = serviceType ? serviceType.value : null;
             
-            if(parameters.length <=0) resource = `service.html`;
+            if(parameters.length <=0) resource = `services.html`;
             else if(serviceTypeValue){
-                if(pathname.indexOf(`service.html`) === -1){
-                    resource = `events.html?${serviceTypeValue}`;
+                if(pathname.indexOf(`services.html`) === -1){
+                    resource = `services.html?${serviceTypeValue}`;
                 }else{
                     past = $(`.itemmenu.itemselected`);
                     current = $(`.itemmenu[topic=${serviceTypeValue}]`);
@@ -53,38 +289,24 @@ connection.addEventListener('message', e => {
             const eventType = parameters.find(x => x.name === `eventType`);
             const eventTypeValue = eventType ? eventType.value : null;
 
-            if(parameters.length <=0) resource = `events.html`
-            else if(eventTypeValue){
-                console.log(pathname);
-                console.log(pathname.indexOf(`events.html`));
-                if(pathname.indexOf(`events.html`) === -1) {
-                    console.log('here');
+            event = parameters.find(x => x.name === `event`);
+            eventId = event ? event.value : null;
+
+            if(parameters.length <=0) resource = `events.html`;
+            else {
+                if(eventTypeValue && !eventId){
+                  if(pathname.indexOf(`events.html`) === -1){
                     resource = `events.html?${eventTypeValue}`;
-                }
-                else {
+                  }else{
                     past = $(`.itemmenu.itemselected`);
                     current = $(`.itemmenu[topic=${eventTypeValue}]`)
-                    select_item_menu(past, current);
+                    select_item_menu(past, current); 
+                  }  
                 }
-            }
-            break;
-        case `services`:
-            if(intent === "inRoomDinning" && parameters.length <= 0){
-                resource = `services.html?4`;
-            }
-            break;
-        case `news`:
-            const topicParameter = parameters.find(e => e.name === `topic`);
-            const topicValue = topicParameter ? topicParameter.value : null;
-
-            if(parameters.length <=0) {
-                resource = `news.html`;      
-            }
-            else{
-                if(topicValue){
-                    past = $(`.itemmenu.menu__item__selected`);
-                    current = $(`.itemmenu[topic=${topicValue}]`);
-                    select_menu_item(past, current);
+                if(eventTypeValue && eventId){
+                    past = $(`.card-box.active`);
+                    current = $(`.card-box[serial=${eventId}]`);
+                    select_item_body(past, current);
                 }
             }
             break;
@@ -157,9 +379,39 @@ connection.addEventListener('message', e => {
             }            
             break;
         case `store`:
+                
                 //categoryId
-                const p1Object = parameters.find(e => e.name === `categoryId`);
-                const p1 = p1Object ? p1Object.value : null;
+                productCategory = parameters.find(e => e.name === `productCategory`);
+                productCategoryId = productCategory ? productCategory.value : null;
+
+                product = parameters.find(e => e.name === `product`);
+                productId = product ? product.value : null;
+
+                confirm = parameters.find( e => e.name === `confirm`);
+                confirmValue = confirm ? confirm.value : null;
+
+                console.log('productCategory', productCategoryId);
+                console.log('product', productId);
+                
+                if(parameters.length <= 0) resource = `store.html`;
+                else{
+                    if(productCategoryId && !productId && !confirmValue){
+                        past = $(`.itemmenu.itemselected`);
+                        current = $(`.itemmenu[serial=${productCategoryId}]`);
+                        select_item_menu(past, current); 
+                    }
+                    if(productCategoryId && productId && !confirmValue){
+                      past = $(`.card-box.active`);
+                      current = $(`.card-box[serial=${productId}]`);
+                      select_product(past, current);
+                    }
+                    if(productCategoryId && productId && confirmValue){
+                        console.log("aqui se compra");
+                        post_store_transaction();
+                    } 
+                }
+
+                /*
                 //flag start buy
                 const p2Object = parameters.find(e => e.name === `startBuy`);
                 const p2 = p2Object ? p2Object.value : null;
@@ -195,8 +447,10 @@ connection.addEventListener('message', e => {
                         openConfirmModal();
                     }
                 }
+                */
 
             break;
+        /*    
         case 'view-service':
             if(param === 'restaurantes'){
                 resource = `restaurantes.html`;
@@ -238,6 +492,7 @@ connection.addEventListener('message', e => {
             //resource = `bookingHistory.html?${true}`;
             renderModal();
             break;
+         */   
         case 'show-weather-forecast':
             resource = `clima.html`;
             break;
@@ -267,6 +522,7 @@ connection.addEventListener('message', e => {
         case 'start-booking':
             resource = `reserva.html`;
             break;
+        /*    
         case 'edit-service': 
             arrayURL = windows.location.href.split('/');
             //resource = `reserva.html`;
@@ -318,6 +574,7 @@ connection.addEventListener('message', e => {
             $('#horavalue').text(hours_arg[0]);
             $('#minutovalue').text(hours_arg[1]);
             break;
+        */
         default:
             break;
     }

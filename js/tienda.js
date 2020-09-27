@@ -16,7 +16,7 @@ var productText = '';
 var ModalShow = false;
 var ModalAct = 0;
 var ConfAct = 2;
-
+$('#confirmModal').modal('show');
 
 $('body').bind("keydown", function(e){
     var column = $('.grid.active').attr('column');

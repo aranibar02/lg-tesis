@@ -1,21 +1,59 @@
 
+const show_loader = () => {
+  $('#loader-wrapper').removeClass('Oculto').addClass('Activo');
+};
 
+const hide_loader = () => {
+  $('#loader-wrapper').removeClass('Active').addClass('Oculto');
+};
 
 const select_item_menu = async(past, current) =>{
+  show_loader();
   past.removeClass(`itemselected active`);
   current.addClass(`itemselected active`);
   const topic = current.attr(`topic`).toString();
   const x = await get(ENDPOINT_GET_EVENT_BY_TYPE(topic), {method: 'GET'});
   const e = x.data;
   render_body(e);
+  hide_loader();
 };
 
 const select_item_body = async(past, current) =>{
+  const scrollBody = $(`.scrollbar`);
   past.removeClass(`active`);
   current.addClass(`active`);
+  const row = Number(current.attr('row'));
+  scrollBody.animate({scrollTop: (row - 1)*470}, 300);
+};
+
+const select_back_buttom = (past, current) => {
+  past.removeClass(`itemselected active`);
+  current.addClass(`itemselected active`);
 }
 
-const control_magic_remoto_menu = (e, row) => {
+
+const control_magic_remote_back = (e) => {
+  const size = $('.itemmenu').length;
+  const past = $('.back');
+  switch(e.keyCode){
+      case 13:
+          //press ok
+          window.location.replace('index.html');
+          break; 
+      case 37:
+          break;
+      case 38:
+            const current = $(`.itemmenu[col=0][row=${size}]`);
+            select_back_buttom(past, current);
+          break;
+      case 39:
+          return;
+      case 40:
+          return;
+  };
+};
+
+const control_magic_remote_menu = (e, row) => {
   const past = $(`.itemmenu.active`); 
   const size = $(`.itemmenu`).length;
 
@@ -37,13 +75,13 @@ const control_magic_remoto_menu = (e, row) => {
       case 39:
           // press right
           const current =$(`.card-box[col=1][row=1]`);
-          select_item_menu(past, current);
+          select_item_body(past, current);
           break; 
       case 40:
           row = row + 1;
           if(row >   size) {
             const current = $(`.back`);
-            select_item_menu(past, current);
+            select_back_buttom(past, current);
           }
           else {
             const current = $(`.itemmenu[col=0][row=${row.toString()}]`);
@@ -92,7 +130,7 @@ const control_magic_remote_body = (e, row) => {
   };
 };
 
-const control_magic_remoto = () => {
+const control_magic_remote = () => {
   $('body').bind("keydown", function(e){ 
       const element = $(`.active`);
       let row = parseInt(element.attr(`row`));
@@ -100,7 +138,7 @@ const control_magic_remoto = () => {
       console.log(row);
       switch(col){
           case 0:
-              control_magic_remoto_menu(e, row)
+              control_magic_remote_menu(e, row)
               //$(`.scroll__body`).css(`overflow-y`, `hidden`);
               break;
           case 1:
@@ -120,7 +158,9 @@ const render_menu = (type) => {
   const items = [{header:"Música", value: "musica"},
                  {header:"Arte", value: "arte"},
                  {header:"Moda", value: "moda"},
-                 {header:"Teatro", value: "teatro"}];
+                 {header:"Teatro", value: "teatro"},
+                 {header:"Charlas", value: "charlas"}
+                ];
   var html = items.map(function(item, key){
     return `
     <li class="itemmenu grid ${type !== item.value ? "" : "itemselected"}" col="0" row="${key + 1}" topic="${item.value}">
@@ -133,8 +173,6 @@ const render_menu = (type) => {
   wrapper.innerHTML = html;
 }
 
-
-
 const render_body = (data) => {
   var wrapper = document.getElementById('Contenido');
   var html = data.map(function(item, key){
@@ -146,7 +184,7 @@ const render_body = (data) => {
       const format = date.toLocaleDateString("en-US");
       const time = `${hour}:${minutes}`;
 
-      return(`<div class="card-box p-4 subgrid ${key > 0 ? "" : "active"}" col="1" row="${key + 1}">
+      return(`<div class="card-box p-4 subgrid ${key > 0 ? "" : "active"}" col="1" row="${key + 1}" serial="${item.id}">
       <h1>${item.name}</h1>
       <div class="info">
         <span><img src="${item.imgUrl}" class="rest-img"/></span>
@@ -158,10 +196,29 @@ const render_body = (data) => {
     </div>
     ` ) 
   }).join(" ");
-  wrapper.innerHTML = html;
+
+  var contentHtml =     `
+  <div class="col-12 pl-5 serv-rest">
+  </div>
+  <div class="col-12 pl-0 scrollbar">
+      <div class="col-12 pl-4 multi-rest">
+          ${html}
+          <div class="" style="height: 150px;">
+          <h1 style="width: 100%"></h1>
+      <div class="info">
+      </div>
+    </div>
+      </div>
+  </div>
+  `;
+
+
+  wrapper.innerHTML = contentHtml;
 }
 
 (async function () {
+
+    show_loader();
     const pathUrl = window.location.href;
 
     const params = pathUrl.split("?");
@@ -172,5 +229,6 @@ const render_body = (data) => {
     const events = response.data;
     render_menu(type);
     render_body(events);
-    control_magic_remoto();
+    control_magic_remote();
+    hide_loader();
 })();

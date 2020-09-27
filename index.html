@@ -35,13 +35,13 @@
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<div id="langTitle" class="language-title"> </div>
+					<div id="langTitle" class="language-title" style="margin: 0 auto;padding: 0px;"> </div>
 				</div>
 				<div class="modal-body">
 					<div class="languageButtons">
-						<div id="activeLanguage1" class="langbtn"> </div>
-						<div id="activeLanguage2" class="langbtn"> </div>
-						<div id="activeLanguage3" class="langbtn"> </div>
+						<div id="activeLanguage1" class="langbtn" language-id="1"> </div>
+						<div id="activeLanguage2" class="langbtn" language-id="2"> </div>
+						<div id="activeLanguage3" class="langbtn" language-id="3"> </div>
 					</div>
 				</div>
 			</div>
@@ -53,13 +53,13 @@
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<div id="currencyTitle" class="currency-title"> </div>
+					<div id="currencyTitle" class="currency-title" style="margin: 0 auto;padding: 0px;"> </div>
 				</div>
 				<div class="modal-body">
 					<div class="languageButtons">
-						<div id="activeCurrency1" class="currbtn"> </div>
-						<div id="activeCurrency2" class="currbtn"> </div>
-						<div id="activeCurrency3" class="currbtn"> </div>
+						<div id="activeCurrency1" class="currbtn" currency-id="1"> </div>
+						<div id="activeCurrency2" class="currbtn" currency-id="2"> </div>
+						<div id="activeCurrency3" class="currbtn" currency-id="3"> </div>
 					</div>
 				</div>
 			</div>
@@ -205,7 +205,10 @@
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="./js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/Constants.js"></script>
-	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="./main.js"></script>
+	<script type="text/javascript" src="./src/constants/constants.js"></script>
+	<script type="text/javascript" src="./src/api/api.js"></script>
+	<script type="text/javascript" src="./src/constants/config.js"></script>
 	<script type="text/javascript" src="./script.js"></script>
 	<script>
 		var valor = checkCookie(NomSecion);

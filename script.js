@@ -4,13 +4,60 @@ var ModalAct = 0;
 var i = 0;
 var ModalShow = false;
 
+var x = window.location.href.split("?");
+var a = x.length > 1 ? x[1] : null;
+var b = x.length > 2 ? x[2] : null;
+
+const select_language_option = (past, current) => {
+	past.removeClass('active');
+	current.addClass('active');
+	const languageId = Number(current.attr('language-id'));
+	console.log(languageId);
+	setTimeout(() => {
+		change_language(languageId);
+	}, 1000);
+};
 
 
+const select_currency_option = (past, current) => {
+	past.removeClass('active');
+	current.addClass('active');
+	const currencyId = Number(current.attr('currency-id'));
+	setTimeout(() => {
+		change_currency(currencyId);
+	}, 1000);
+};
 
 
+if(a){
+	if(a.toString() === 'language'){
+		LanguageMod();
+		if(b){
+			const past = $(`.langbtn.active`);
+			const current = $(`.langbtn[language-id=${b}]`)
+			
+			select_language_option(past, current);
+		}		
+	}else if( a.toString() === 'currency'){
+		CurrencyMod();
+		if(b){
+			const past = $(`.currbtn.active`);
+			const current = $(`.currbtn[currency-id=${b}]`)
 
+			select_currency_option(past, current);
+		}
+	}
+};
 
-
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
 
 
 $(document).bind("keydown", function (e) {
@@ -229,11 +276,11 @@ function ingreso(){
 	if(ModalShow===true){
 		if(ModalAct===1){
 			if(CaseClick == 1)
-				window.location.replace("eventos.html");
+				window.location.replace("events.html");
 			else if(CaseClick == 2 )
-				window.location.replace("lugares.html");
+				window.location.replace("placesInterest.html");
 			else if(CaseClick == 4 )
-				window.location.replace("instalaciones.html");
+				window.location.replace("facilities.html");
 			else if(CaseClick == 3 ){
 				closemodal("infoModal");
 			}
@@ -248,21 +295,27 @@ function ingreso(){
 		}else if(ModalAct === 3){
 			console.log("se ha seleccionado un tipo de lenguaje");
 			if($('#activeLanguage1').hasClass('active')){
-				cambiarIdioma(2);
+				change_language(1);
+				//cambiarIdioma(2);
 			}else if($('#activeLanguage2').hasClass('active')){
-				cambiarIdioma(1);
+				change_language(2);
+				//cambiarIdioma(1);
 			}else if($('#activeLanguage3').hasClass('active')){
-				cambiarIdioma(3);
+				change_language(3);
+				//cambiarIdioma(3);
 			}
 			closemodal("languageModal");
 		}else if(ModalAct === 4){
 			console.log("se ha seleccionado un tipo de moneda");
 			if($('#activeCurrency1').hasClass('active')){
-				cambiarMoneda(2);
+				//cambiarMoneda(2);
+				change_currency(1);
 			}else if($('#activeCurrency2').hasClass('active')){
-				cambiarMoneda(1);
+				//cambiarMoneda(1);
+				change_currency(2);
 			}else if($('#activeCurrency3').hasClass('active')){
-				cambiarMoneda(3);
+				//cambiarMoneda(3);
+				change_currency(3);
 			}
 			closemodal("currencyModal");
 		}
@@ -408,6 +461,31 @@ $(function(){
 
 showPreloader();
 
+(async function () {
+	const bookingConfig = await get_config_data();
+	console.log(bookingConfig);
+	const language = bookingConfig.language;
+	$('#infoTxt').text(CONFIGURATION[`${language}`].module_information_name);
+	$('#servicesTxt').text(CONFIGURATION[`${language}`].module_services_name);
+	$('#storeTxt').text(CONFIGURATION[`${language}`].module_store_name);
+	$('#weatherTxt').text(CONFIGURATION[`${language}`].module_weather_name);
+	$('#accountTxt').text(CONFIGURATION[`${language}`].module_account_name);
+	$('#eventTxt').text(CONFIGURATION[`${language}`].submodule_events_name);
+	$('#placesTxt').text(CONFIGURATION[`${language}`].submodule_places_name);
+	$('#facilitiesTxt').text(CONFIGURATION[`${language}`].submodule_facilities_name);
+	$('#reservationsTxt').text(CONFIGURATION[`${language}`].submodule_booking_history_name);
+	$("#accountStateTxt").text(CONFIGURATION[`${language}`].submodule_account_state_name);
+	$('#langTitle').text(CONFIGURATION[`${language}`].submodule_language_header);
+	$('#activeLanguage1').text(CONFIGURATION[`${language}`].submodule_language_spanish);
+	$('#activeLanguage2').text(CONFIGURATION[`${language}`].submodule_language_english);
+	$('#activeLanguage3').text(CONFIGURATION[`${language}`].submodule_language_portuguese);
+	$("#currencyTitle").text(CONFIGURATION[`${language}`].submodule_currency_header);
+	$("#activeCurrency1").text(CONFIGURATION[`${language}`].submodule_currency_soles);
+	$("#activeCurrency2").text(CONFIGURATION[`${language}`].submodule_currency_dollar);
+	$("#activeCurrency3").text(CONFIGURATION[`${language}`].submodule_currency_euro);
+})();
+
+
 $.ajax({
 	url: URL_API_CONFIGURATION,
 	type: 'GET',
@@ -472,6 +550,59 @@ $(document).bind('mousemove click keydown', function(){
 
 });
 
+
+const change_currency = async (code) => {
+	try{
+		showPreloader();
+		let config = await get_config_data();
+		switch(code){
+			case 1:
+				config.currency = 'soles';
+				break;
+			case 2:
+				config.currency = 'dolares';
+				break;
+			case 3:
+				config.currency = 'euros';
+				break;
+			default:
+				break;
+		}
+		await post(ENDPOINT_CONFIGURATION, config);
+		hidePreloader();
+		window.location.replace("index.html");
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
+const change_language = async (code) => {
+	try{
+		showPreloader();
+		let config = await get_config_data();
+		switch(code){
+			case 1:
+				config.language = 'español';
+				break;
+			case 2:
+				config.language = 'ingles';
+				break;
+			case 3:
+				config.language = 'portugues';
+				break;
+			default:
+				break;
+		}
+		console.log('guest config', config);
+		await post(ENDPOINT_CONFIGURATION, config);
+		hidePreloader();
+		window.location.replace("index.html");
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
+
 function cambiarIdioma(codigo) {
 	showPreloader();
 	$.ajax({
@@ -520,3 +651,5 @@ function preparetosleep(){
 	}, 150000);
 }
 preparetosleep();
+
+

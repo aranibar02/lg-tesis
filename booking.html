@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/servicios_old.css">
+        <link rel="stylesheet" type="text/css" href="css/servicios_new_old.css">
+        <link rel="stylesheet" type="text/css" href="css/services-rest_old.css">
+        <link rel="stylesheet" type="text/css" href="css/reserva_old.css">
+    </head>
+    <body>
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <strong id="msjConfirmacion">¿Estás seguro que deseas realizar esta reserva para Desayuno Buffet, el 10/11/18 a las 07:00?</strong><br />
+                        <span id="msjConfirmacion1"></span><br />
+                        <span id="msjConfirmacion2"></span>
+                        <div class="buttons modal-confirm mt-5">
+                            <img src="icons/cancel-icon.svg" id="ActiveModal1" class="modal-button cancel-modal" data-dismiss="modal" value="false"  >
+                            <img src="icons/confirm-icon.svg" id="ActiveModal2" class="modal-button confirm-modal">
+                            <span class="cancel-modal"></span>
+                            <span class="confirm-modal"></span>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="icons/confirm-icon.svg">
+                        <p id="reservationSuccededTxt" class="mt-5">¡Tu reserva se realizó con éxito!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="fechaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="icons/cancel-icon.svg">
+                        <p id="dateValidationText" class="mt-5">¡Fecha inválida!, Por favor selecciona una fecha futura.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="main-list col-4 p-0">
+                    <div class="logo2">
+                        <h1 id="pageTitle">Reserva</h1>
+                        <h2 id="service-name">Service name</h2>
+                    </div>
+                   
+                    <div class="img-dtl">
+                        <img id="imgServicio" src="ser1.jpg" class="rs">
+                        <a href="services-rest.html" class="grid" col="1" type='back'>
+                            <img src="left-arrow.png" class="back">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-8 contenido" style="overflow: scroll;">
+
+                    <div class="container">
+                        <p id="mensajeReserva" class="bienvenida">Bienvenida</p>
+                        
+                        <p id="bookIndication" class="bienvenida2"> Por favor, escoge la fecha (día/mes/año) y la hora(24H) en la que deseas realizar tu reserva. </p>
+
+                        <div class="markers">
+                            <div class="dates">
+                                <span id="dateTxt" class="title">Fecha</span>
+                                <div class="date">
+                                    <span id="diaSpan" class="day grid active" col="2" type='day'>
+                                        <img class="icon-bf" src="icons/up-arrow.svg">
+                                        <p id="diavalue" class="value"></p>
+                                        <img class="icon-af" src="icons/down-arrow.svg">
+                                    </span>
+                                    <span class="month grid" col="3" type='month'>
+                                        <img class="icon-bf" src="icons/up-arrow.svg">
+                                        <p id="mesvalue" class="value"></p>
+                                        <img class="icon-af" src="icons/down-arrow.svg">
+                                    </span>
+                                    <span class="year grid" col="4" type='year'>
+                                        <img class="icon-bf" src="icons/up-arrow.svg">
+                                        <p id="aniovalue" class="value"></p>
+                                        <img class="icon-af" src="icons/down-arrow.svg">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="hours">
+                                <span id="hourTxt" class="title">Hora</span>
+                                <div class="hour">
+                                    <span class="hour grid" col="5" type='hour'>
+                                        <img class="icon-bf" src="icons/up-arrow.svg">
+                                        <p id="horavalue" class="value"></p>
+                                        <img class="icon-af" src="icons/down-arrow.svg">
+                                    </span>
+                                    <span class="minute grid" col="6" type='minute'>
+                                        <img class="icon-bf" src="icons/up-arrow.svg">
+                                        <p id="minutovalue" class="value"></p>
+                                        <img class="icon-af" src="icons/down-arrow.svg">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="confirm">
+                            <button id="bookBtn" class="btn btn-primary confirm-reserva grid" col="8" type='accept'>Reservar</button>
+                            <button id="cancelBtn" class="btn btn-primary cancel-reserva mr-3 grid" col="7" type='cancel'>Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="./js/bootstrap.js"></script>
+        <!--<script type="text/javascript" src="./js/helper.js"></script>
+        <script type="text/javascript" src="./js/Constants.js"></script>
+        !-->
+        <script type="text/javascript" src="./src/constants/constants.js"></script>
+        <script type="text/javascript" src="./src/api/api.js"></script>
+        <script type="text/javascript" src="./main.js"></script>
+        <script type="text/javascript" src="./src/screens/js/booking.js"></script>
+        <!--<script type="text/javascript" src="./js/reserva.js"></script>!-->
+    </body>
+</html>

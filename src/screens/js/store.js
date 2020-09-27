@@ -1,35 +1,177 @@
 //#region globals
 var products;
+var modalActive = false;
+var language = '';
+var currency = '';
+var move = 0;
 //#endregion
 
-//#region utils 
-function selectItemMenu(serial){
-    var element = $(`.active`);
-    element.removeClass('itemselected active');
-    $(`.itemmenu[serial=${serial}]`).addClass('itemselected active');
-    $(`.itemmenu[serial=${serial}]`).mouseover();
+
+const get_category_by_language = (item) => {
+  let text = '';
+  switch(language){
+    case 'español':
+      text = item.name;
+      break;
+    case 'ingles':
+      text = item.name_en;
+      break;
+    case 'portugues':
+      text = item.name_po
+      break;
+    default:
+      text = item.name
+      break;
   }
-  function selectItemBody(serial){
-    var element = $(`.active`);
-    element.removeClass('itemselected active');
-    $(`.itembody[serial=${serial}]`).addClass('itemselected active');
-  } 
-//#endregion
-   
-const select_menu_item = (past, current) => {
-  past.removeClass(`menu__item__selected active`);
-  current.addClass(`menu__item__selected active`);
-  current.mouseover();
+  return text;
 }
+
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
+const select_back_buttom = (past, current) => {
+  past.removeClass(`itemselected active`);
+  current.addClass(`itemselected active`);
+};
+
+const select_product = (past, current) => {
+  
+  select_body_item(past, current);
+  setTimeout(() => {
+    open_confirm_modal();
+  }, 1000);
+};
+
+const select_item_menu = async(past, current) => {
+  show_loader();
+  past.removeClass(`itemselected active`);
+  current.addClass(`itemselected active`);
+  const categoryId = Number(current.attr(`serial`));
+  const imgUrl = current.attr('img-url').toString();
+  $('.img-rest').attr('src', imgUrl);
+  render_body(await get_data(categoryId));
+  hide_loader();
+};
+
+const get_data = async(categoryId) => {
+  try{
+    const result = await get(ENDPOINT_GET_PRODUCTS, { method: 'GET' });
+    const data = result.data.filter(x => x.product_category_id === Number(categoryId));
+    return data;
+  }catch(ex){
+    console.log(ex);
+  }
+};
+
 
 const select_body_item = (past, current) => {
+  const scrollBody = $(`.scrollbar`);
   past.removeClass(`body__item_selected active`);
   current.addClass(`body__item_selected active`);
-}
+  
+  const apos = Number(current.attr('pos'));
+  const bpos = Number(past.attr('pos'));
+  console.log(apos,' ', bpos);
+  if(apos !== bpos){
+    scrollBody.animate({scrollTop: apos*470}, 300);
+  }
+};
 
+
+const set_module_header = (text) => {
+  $('#storeTitle').text(text);
+};
+  
+
+const select_button_modal = (past, current) => {
+  past.removeClass('active');
+  current.addClass('active');
+};
+
+const open_confirm_modal = () => {
+
+  const objectHTML = $('.card-box.active'); 
+  const price = parseFloat(objectHTML.attr('product-price')); 
+  const productName = objectHTML.attr('product-name');
+
+  $('#modal-header').text(`Producto: ${productName}`);
+  $('#modal-subheader').text(`Precio: ${get_price_format(price)}`); // cambiar simbolo por cookie
+
+  $('#confirmModal').modal('show');
+  $('.modal-button.confirm-modal').addClass('active');
+  modalActive = true;
+};
+
+const close_confirm_modal = () => {
+  $('#confirmModal').modal('hide');
+  $('.modal-button').removeClass('active');
+  modalActive = false;
+};
+
+const open_success_modal = () => {
+  $('#acceptModal').modal('show');
+  setInterval(() => {
+    $('#acceptModal').modal('hide');
+  }, 1000);
+};
+
+const get_account_data = async(guestId) => {
+  try{
+    const response = await get(ENDPOINT_ACCOUNT_BY_GUEST(guestId), { method: 'GET' });
+    const data = response.data;
+    return data[0];
+  }catch(ex){
+    console.log(ex);
+  }
+};
+
+const post_store_transaction = async() => {
+  try{
+    //post to endpoint transaction
+    const objectHTML = $('.card-box.active');
+    
+    const productId = Number(objectHTML.attr('serial'));
+    const price = parseFloat(objectHTML.attr('product-price')); 
+    const productName = objectHTML.attr('product-name');
+
+    let account = await get_account_data(GUEST_ID);
+    account.total_amount = parseFloat(account.total_amount) + price;
+
+    console.log(account);
+
+    const body = {
+      transaction_datetime: new Date().toISOString(),
+      transaction_description: productName,
+      currency_symbol: 'S/.', // sacar de cookie
+      amount: price,
+      soles: price,
+      euro: price,
+      dollar: price,
+      product_id: productId,
+      account_id: account.id,
+      guest_id: GUEST_ID,
+    };
+
+    await post(ENDPOINT_TRANSACTIONS, body);
+    await post(ENDPOINT_ACCOUNT, account);
+
+    close_confirm_modal();
+    open_success_modal();
+  }catch(ex){
+    console.log(ex);
+    //open modal error;
+  }
+};
 
 const control_magic_remote_menu = (e, row) => {
-  const past = $(`.menu__item__selected.active`); 
+  const past = $(`.itemselected.active`); 
   const size = $(`.itemmenu`).length;
 
   switch(e.keyCode){
@@ -44,7 +186,7 @@ const control_magic_remote_menu = (e, row) => {
             return;
           }else{
             const current = $(`.itemmenu[col=0][row=${row.toString()}]`);
-            select_menu_item(past, current);
+            select_item_menu(past, current);
           }
           break;
       case 39:
@@ -56,11 +198,11 @@ const control_magic_remote_menu = (e, row) => {
           row = row + 1;
           if(row > size) {
             const current = $(`.back`);
-            select_menu_item(past, current);
+            select_back_buttom(past, current);
           }
           else {
             const current = $(`.itemmenu[col=0][row=${row.toString()}]`);
-            select_menu_item(past, current);
+            select_item_menu(past, current);
           }
           break;
   };
@@ -70,11 +212,14 @@ const control_magic_remote_body = (e, row) => {
   const past = $(`.itembody.body__item_selected`);
   const scrollBody = $(`.contenido`);
   switch(e.keyCode){ 
+      case 13:
+          open_confirm_modal();
+        break;
       case 37:
           row = row - 1;
           if(row <= 0){
-            const current = $(`.itemmenu.menu__item__selected`);
-            select_menu_item(past, current);
+            const current = $(`.itemmenu.itemselected`);
+            select_item_menu(past, current);
           }else{
             const current = $(`.itembody[col=1][row=${row.toString()}]`);
             select_body_item(past, current);
@@ -86,7 +231,6 @@ const control_magic_remote_body = (e, row) => {
           if(row <= 0) {return;}
           else{
               const current = $(`.itembody[col=1][row=${row.toString()}]`);
-              scrollBody.animate({scrollTop: (row - 1)*300}, 300);
               select_body_item(past, current);
           }
           break;
@@ -96,7 +240,6 @@ const control_magic_remote_body = (e, row) => {
           if (row > size) return;
           else {
             const current = $(`.itembody[col=1][row=${row.toString()}]`);
-            scrollBody.animate({scrollTop: (row - 1)*300}, 300);
             select_body_item(past, current);
           }
           return; 
@@ -106,14 +249,13 @@ const control_magic_remote_body = (e, row) => {
           if( row > size) {return;}
           else{
               const current = $(`.itembody[col=1][row=${row.toString()}]`);
-              scrollBody.animate({scrollTop: (row - 1)*300}, 300);
               select_body_item(past, current);
               //scrollBody.scrollTop(displacement*(-1));
           } 
           break;
   };
 }
-const control_magic_remote_back = () => {
+const control_magic_remote_back = (e) => {
   const past = $(`.back`); 
   const size = $(`.itemmenu`).length;
   console.log(size);
@@ -124,23 +266,65 @@ const control_magic_remote_back = () => {
     case 37:
         return;
     case 38:
-        console.log(`size: ${size}`)
         const current = $(`.itemmenu[col=0][row=${size}]`);
-        select_menu_item(past, current);
+        select_item_menu(past, current);
         break;
     case 39:
+        //rigth
+        return;
+    case 40:
+        //button
+        return;
+  };
+}
+
+const control_magic_remote_modal = (e) => {
+  const past = $(`.modal-button.active`); 
+
+  switch(e.keyCode){
+    case 13:
+        
+        if(past.hasClass('confirm-modal')){
+          console.log('sds');
+          post_store_transaction();
+        }else{
+          close_confirm_modal();
+        }
+        break; 
+    case 37:
+
+        current = $(`.modal-button.cancel-modal`);
+        select_button_modal(past, current);
+
+        return;
+    case 38:
+        break;
+    case 39:
+
+        current = $(`.modal-button.confirm-modal`);
+        select_button_modal(past, current);
+
         return;
     case 40:
         break;
   };
 }
+
 const control_magic_remote = () => {
   $('body').bind("keydown", function(e){   
-    const element = $(`.active`);
-    let row = parseInt(element.attr(`row`));
-    let col = parseInt(element.attr(`col`)); 
-    console.log(row);
-    switch(col){
+    console.log(modalActive);
+    if(modalActive){
+
+      control_magic_remote_modal(e);
+
+    }else{
+
+      const element = $(`.active`);
+      console.log(element.length);
+      let row = parseInt(element.attr(`row`));
+      let col = parseInt(element.attr(`col`)); 
+      console.log(row);
+      switch(col){
         case 0:
             control_magic_remote_menu(e, row)
             //$(`.scroll__body`).css(`overflow-y`, `hidden`);
@@ -153,6 +337,7 @@ const control_magic_remote = () => {
             control_magic_remote_back(e);
         default:
             break;
+      }
     }
   });
 };
@@ -161,9 +346,9 @@ const render_sidebar = (data) => {
   const wrapper = $(`.sidebar`);
   const contentHtml = data.map((item,index) => {
     return `
-    <li class="itemmenu ${index > 0 ? "" : "menu__item__selected"}" col="0"  row="${index + 1}" serial="${item.id}">
+    <li class="itemmenu ${index > 0 ? "" : "itemselected"}" col="0"  row="${index + 1}" serial="${item.id}" img-url="${item.img_url}">
         <div class="item" >
-            <p>${item.name}</p>
+            <p>${get_category_by_language(item)}</p>
         </div>
     </li>
     `;
@@ -171,26 +356,77 @@ const render_sidebar = (data) => {
   wrapper.append(contentHtml) 
 };
 
+
+const get_price_format = (price) => {
+  let text = '';
+  switch(currency){
+    case 'soles':
+      text = `${SOL_SYMBOL} ${price}`;
+      break;
+    case 'dolares':
+      text = `${USD_SYMBOL}${toDollars(price).toFixed(2)}`;
+      break;
+    case 'euros':
+      text = `${toEuros(price).toFixed(2)} ${EURO_SYMBOL}`;
+      break;
+    default:
+      text = `${SOL_SYMBOL} ${price.toFixed(2)}`;
+      break;
+  }
+  return text;
+}
+//$13.95
+//28,06 €
+//S/ 825
+
 const render_body = (data) => {
+  console.log(data);
   const wrapper = $(`.contenido`);
   wrapper.empty();
-  const contentHtml = data.map((item, index) => {
+  const html = data.map((item, index) => {
         return `
         <div class="card-box col-44 subgrid itembody ${index > 0 ? "" : "body__item_selected active"}" Style="float:left"  col="1" row="${index + 1}" 
         product-img-url="${item.img_url}" product-name="${item.name}" product-price="${item.price}" 
-        serial="${item.id}">
+        serial="${item.id}" pos="${parseInt(index/3)}">
             <div class="info" style="font-size: 26px;">
                 <img src="${item.img_url}" class="rest-img img-fluid" style="width: 326px;object-fit:contain;background-color: white">
                 <div class="rest-info pl-4">
                     <div >${item.name}</div>
-                    <p class="precio">${item.price}</p>
+                    <p class="precio">${get_price_format(item.price)}</p>
                 </div>
             </div>
         </div>
           `
       }).join(" ");
+
+      var contentHtml =     `
+      <div class="col-12 pl-5 serv-rest">
+      </div>
+      <div class="col-12 pl-0 scrollbar">
+          <div class="col-12 pl-4 multi-rest">
+              ${html}
+              <div class="" style="height: 150px;">
+              <h1 style="width: 100%"></h1>
+          <div class="info">
+          </div>
+        </div>
+          </div>
+      </div>
+      `;
+
       wrapper.append(contentHtml);
 }
+
+const show_loader = () => {
+  $('#loader-wrapper').removeClass('Oculto').addClass('Activo');
+};
+
+const hide_loader = () => {
+  $('#loader-wrapper').removeClass('Activo').addClass('Oculto');
+};
+
+
+
 /*
 function renderSideBar(data,itemMenuId) {
   const wrapper = $(`.sidebar`);
@@ -209,8 +445,18 @@ function renderSideBar(data,itemMenuId) {
 */
   (async function () {
     try{
+      show_loader();
       const categoriesResult = await get(ENDPOINT_GET_PRODUCT_CATEGORIES, {method: 'GET'});
       const productResult = await get(ENDPOINT_GET_PRODUCTS, {method: 'GET'});
+
+
+      const config = await get_config_data();
+      language = config.language;
+      currency = config.currency;
+
+      set_module_header(CONFIGURATION[language].module_store_header_name);
+
+      console.log(language,' ',currency);
 
       const categories = categoriesResult.data;
       console.log(categories);
@@ -218,6 +464,7 @@ function renderSideBar(data,itemMenuId) {
       console.log(products);
       render_sidebar(categories);
       render_body(products);
+      hide_loader();
       control_magic_remote();
     }catch(e){
       console.log(e);
@@ -248,8 +495,8 @@ function renderSideBar(data,itemMenuId) {
     /****************************/
     $(`.itemmenu`).mouseover(async function(){
         var serial = $(this).attr(`serial`);
-        var result  = await get(ENDPOINT_GET_PRODUCT_BY_CATEGORY(serial), {method: 'GET'});
-        products = result.data;
+        var result  = await get(ENDPOINT_GET_PRODUCTS, {method: 'GET'});
+        products = result.data.filter( x => x.product_category_id === Number(serial));
         render_body(products); 
         /*
         var filterData = productResult.data.filter(e => e.product_category_id === parseInt(serial));
@@ -485,7 +732,7 @@ function getRowCol(serial, type){
                 <img src="${item.img_url}" class="rest-img img-fluid" style="width: 326px;object-fit:contain;background-color: white">
                 <div class="rest-info pl-4">
                     <div >${item.name}</div>
-                    <p class="precio">${item.price}</p>
+                    <p class="precio">sss${item.price}</p>
                 </div>
             </div>
         </div>

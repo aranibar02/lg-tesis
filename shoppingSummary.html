@@ -2,10 +2,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="servicios.css">
-	<link rel="stylesheet" type="text/css" href="./css/servicios_new.css">
-	<link rel="stylesheet" type="text/css" href="./src/screens/css/shoppingSummary.css">
+	<link rel="stylesheet" type="text/css" href="css/servicios_new.css">
 	<script type="text/javascript" src="master.js"></script>
 	<script type="text/javascript">
 		var sdkInstance="appInsightsSDK";window[sdkInstance]="appInsights";var aiName=window[sdkInstance],aisdk=window[aiName]||function(e){function n(e){t[e]=function(){var n=arguments;t.queue.push(function(){t[e].apply(t,n)})}}var t={config:e};t.initialize=!0;var i=document,a=window;setTimeout(function(){var n=i.createElement("script");n.src=e.url||"https://az416426.vo.msecnd.net/scripts/b/ai.2.min.js",i.getElementsByTagName("script")[0].parentNode.appendChild(n)});try{t.cookie=i.cookie}catch(e){}t.queue=[],t.version=2;for(var r=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];r.length;)n("track"+r.pop());n("startTrackPage"),n("stopTrackPage");var s="Track"+r[0];if(n("start"+s),n("stop"+s),n("addTelemetryInitializer"),n("setAuthenticatedUserContext"),n("clearAuthenticatedUserContext"),n("flush"),!(!0===e.disableExceptionTracking||e.extensionConfig&&e.extensionConfig.ApplicationInsightsAnalytics&&!0===e.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)){n("_"+(r="onerror"));var o=a[r];a[r]=function(e,n,i,a,s){var c=o&&o(e,n,i,a,s);return!0!==c&&t["_"+r]({message:e,url:n,lineNumber:i,columnNumber:a,error:s}),c},e.autoExceptionInstrumented=!0}return t}(
@@ -14,11 +13,6 @@
 				}
 		);window[aiName]=aisdk,aisdk.queue&&0===aisdk.queue.length&&aisdk.trackPageView({});
 	</script>
-	<style>
-		::-webkit-scrollbar {
-    		width: 0px;
-		}
-	</style>
 </head>
 <body>
 	<!-- <div w3-include-html="master.html"></div> -->
@@ -37,9 +31,9 @@
 
 				</ul>
 				<div class="img-dtl">
-					<img class="img-rest" src="../../assets/icon/ser1.jpg">
-					<a class="" href="index.html" class="grid">
-						<img src="../../assets/icon/left-arrow.png" class="back back__home" col="0" row="0">
+					<img class="img-rest" src="ser1.jpg">
+					<a id="btnBack" href="index.html" class="grid">
+						<img src="left-arrow.png" class="back" col="4" row="4">
 					</a> 
 				</div>
 			</div>
@@ -49,16 +43,14 @@
 	</div>
 	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="./js/bootstrap.js"></script>
-	<script type="text/javascript" src="servscript.js"></script>
-	<script type="text/javascript" src="./js/helper.js"></script>
 	<script type="text/javascript" src="./src/constants/constants.js"></script>
+	<script type="text/javascript" src="./src/constants/config.js"></script>
 	<script type="text/javascript" src="./src/api/api.js"></script>
-	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="./main.js"></script>
 	<script type="text/javascript" src="./src/screens/js/shoppingSummary.js"></script>
+	
 	<!--<script type="text/javascript" src="./screensaver.js"></script>-->
 	<script>
-		$("#1_Inicio").addClass("itemselected");
-		$("#btnBack").addClass("active");
 	</script>
 </body>
 </html>

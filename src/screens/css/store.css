@@ -427,6 +427,7 @@ a.grid .back{
 
 .container-fluid{
     height: 100%;
+    overflow-y: hidden;
 }
 .row{
     height: 100%;

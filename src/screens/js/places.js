@@ -1,36 +1,48 @@
-const select_back_buttom = (past, current) => {
-    past.removeClass(`itemselected active`);
-    current.addClass(`itemselected active`);
-};
-  
+//#region global variables
+var bodyActive = true;
+//#endregion
 
-const select_item_menu = async(past, current) =>{
+
+
+const show_loader = () => {
+    $('#loader-wrapper').removeClass('Oculto').addClass('Activo');
+  };
+  
+  const hide_loader = () => {
+    $('#loader-wrapper').removeClass('Active').addClass('Oculto');
+  };
+  
+  const select_item_menu = async(past, current) =>{
     show_loader();
     past.removeClass(`itemselected active`);
     current.addClass(`itemselected active`);
-    const topic = current.attr(`topic`).toString();
-    const x = await getData(topic);
-    const e = x.data;
-    render_body(e);
+    const serial = Number(current.attr(`serial`));
+    console.log(serial);
+    const placesResult = await get(ENDPOINT_TOURISTICPLACES, {method: 'GET'});
+
+    const places = placesResult.data.filter(x => Number(x.touristic_places_type_id) === Number(serial));
+    //render_body(places); 
+    //const response = await get(ENDPOINT_TOURISTICPLACES, {method: 'GET'});
+    //const e = response.data;
+    render_body(places);
     hide_loader();
-};
-
-const select_item_body = async(past, current) =>{
-
+  };
+  
+  const select_item_body = async(past, current) =>{
     const scrollBody = $(`.scrollbar`);
     past.removeClass(`active`);
     current.addClass(`active`);
     const row = Number(current.attr('row'));
-    scrollBody.animate({scrollTop: (row - 1)*471.86}, 300);
-}
-
-const select_button_info = (past, current) => {
-    past.removeClass('active');
-    current.addClass('active itemselected');
-};
-
-
-const control_magic_remote_back = (e) => {
+    scrollBody.animate({scrollTop: (row - 1)*470}, 300);
+  };
+  
+  const select_back_buttom = (past, current) => {
+    past.removeClass(`itemselected active`);
+    current.addClass(`itemselected active`);
+  }
+  
+  
+  const control_magic_remote_back = (e) => {
     const size = $('.itemmenu').length;
     const past = $('.back');
     switch(e.keyCode){
@@ -50,8 +62,8 @@ const control_magic_remote_back = (e) => {
             return;
     };
   };
-
-const control_magic_remote_menu = (e, row) => {
+  
+  const control_magic_remote_menu = (e, row) => {
     const past = $(`.itemmenu.active`); 
     const size = $(`.itemmenu`).length;
   
@@ -87,33 +99,15 @@ const control_magic_remote_menu = (e, row) => {
             }
             break;
     };
-};
-
-const handle_redirect = (type, key) => { 
-    let pathname = ``;
-    switch(type){
-        case `restaurantes`:
-            pathname = `restaurants.html?${key}`;
-            break;
-        default:
-            pathname = `booking.html?${type}?${key}`;
-            break;
-    }
-    window.location.replace(pathname);
-};
-
-const control_magic_remote_body = (e, row) => {
+  };
+  
+  const control_magic_remote_body = (e, row) => {
     const size = $(`.card-box`).length;
     const past = $(`.card-box.active`);
+    const scrollBody = $(`.contenido`);
     //const displacement = parseInt(scrollBody.height())/parseInt(size);
     //console.log(displacement);
-    switch(e.keyCode){
-        case 13:
-            // press ok
-            const type = $(`.itemmenu.itemselected`).attr(`topic`);
-            const key = $(past).attr(`unique-key`);
-            handle_redirect(type, key);
-            break;
+    switch(e.keyCode){ 
         case 37:
             const current = $(`.itemmenu.itemselected`);
             select_item_menu(past, current);
@@ -124,6 +118,7 @@ const control_magic_remote_body = (e, row) => {
             if(row <= 0) {return;}
             else{
                 const current = $(`.card-box[col=1][row=${row.toString()}]`);
+                scrollBody.animate({scrollTop: (row - 1)*300}, 300);
                 select_item_body(past, current);
             }
             break;
@@ -136,15 +131,16 @@ const control_magic_remote_body = (e, row) => {
             if( row > size) {return;}
             else{
                console.log(row);
-                const current = $(`.card-box[col=1][row=${row.toString()}]`);         
+                const current = $(`.card-box[col=1][row=${row.toString()}]`);
+                scrollBody.animate({scrollTop: (row - 1)*300}, 300);
                 select_item_body(past, current);
                 //scrollBody.scrollTop(displacement*(-1));
             } 
             break;
     };
-};
+  };
   
-const control_magic_remote = () => {
+  const control_magic_remote = () => {
     $('body').bind("keydown", function(e){ 
         const element = $(`.active`);
         let row = parseInt(element.attr(`row`));
@@ -165,56 +161,39 @@ const control_magic_remote = () => {
                 break;
         }
       });
-}; 
+  }; 
   
-const render_menu = (type) => {
+  const render_menu = (data) => {
     var wrapper = document.getElementById('menu');
-    const items = [{header:"Gimnasio", value: "gimnasios"},
-                   {header:"Spa", value: "spas"},
-                   {header:"Restaurante", value: "restaurantes"}
-                   ];
 
-    var html = items.map(function(item, key){
+    var html = data.map(function(item, key){
       return `
-        <li class="itemmenu grid ${type !== item.value ? "" : "itemselected"}" col="0" row="${key + 1}" topic=${item.value}>
-            <div class="item">
-                <p>${item.header}</p>
-            </div>
-        </li>
+      <li class="itemmenu grid ${key > 0 ? "" : (bodyActive === false ? "itemselected active": "itemselected")}" col="0" row="${key + 1}" serial="${item.id}">
+        <div class="item">
+          <p>${item.name}</p>
+        </div>
+      </li>
       `
     }).join(` `);
     wrapper.innerHTML = html;
-};
-
-const show_loader = () => {
-    $('#loader-wrapper').removeClass('Oculto').addClass('Activo');
-};
-
-const hide_loader = () => {
-    $('#loader-wrapper').removeClass('Activo').addClass('Oculto');
-};
-
-const render_body = (data) => {
-    var wrapper = document.getElementById('content');
+  }
+  
+  const render_body = (data) => {
+    var wrapper = document.getElementById('Contenido');
     var html = data.map(function(item, key){
-        return(`
-        <div class="card-box p-4 subgrid ${key >0 ? "":"active"}" col="${1}" row="${key + 1}" unique-key=${item.id}>
-            <h1>${item.name}</h1>
-            <div class="info">
-                <span>
-                    <img src="${item.imgUrl}" class="rest-img"/>
-                </span>
-                <div class="rest-info pl-4">
-                    <p>${item.description}</p>
-                </div>
-                <div class="rest-infoDiv">
-                    <button onclick="InfoRedirect()" class="btn btn-primary more-info">${"Mas informacion"}</button>
-                </div>
-            </div>
+
+        return(`<div class="card-box p-4 subgrid ${key > 0 ? "" : (bodyActive === true ? "active": "")}" col="1" row="${key + 1}" serial="${item.id}">
+        <h1>${item.name}</h1>
+        <div class="info">
+          <span><img src="${item.imgUrl}" class="rest-img"/></span>
+          <div class="rest-info pl-4">
+            <p>${item.description}</p>
+          </div>
         </div>
+      </div>
       ` ) 
     }).join(" ");
-
+  
     var contentHtml =     `
     <div class="col-12 pl-5 serv-rest">
     </div>
@@ -222,55 +201,48 @@ const render_body = (data) => {
         <div class="col-12 pl-4 multi-rest">
             ${html}
             <div class="" style="height: 150px;">
-				    <h1 style="width: 100%"></h1>
-				<div class="info">
-				</div>
-			</div>
+            <h1 style="width: 100%"></h1>
+        <div class="info">
+        </div>
+      </div>
         </div>
     </div>
     `;
+  
+  
     wrapper.innerHTML = contentHtml;
-};
+  }
+  
+  (async function () {
+  
+      show_loader();
+      const pathUrl = window.location.href;
+  
+      const params = pathUrl.split("?");
+      
 
-const getData = async (type) => {
-    let response = {};
-    switch(type){
-        case 'gimnasios':
-            response = await get(ENDPOINT_GET_GYMS, {method: 'GET'});
-            break;
-        case 'restaurantes':
-            response = await get(ENDPOINT_GET_RESTAURANTS, {method: 'GET'}); 
-            break;
-        case  'spas':
-            response = await get(ENDPOINT_GET_SPAS, {method: 'GET'}); 
-            break;
-        default:
-            break;
-    }
-    return response;    
-};
+        const categories = await get(ENDPOINT_PLACES_TYPES, { method: 'GET' });
+        const categoryId = categories.data[0].id;
+        const placeResult = await get(ENDPOINT_TOURISTICPLACES, {method: 'GET'});
+        const places = placeResult.data.filter(x => x.touristic_places_type_id === Number(categoryId)); 
+        bodyActive = places.length > 0 ? true : false;
 
-(async function () {
-    try{
-        show_loader();
-        const pathUrl = window.location.href;
-        const params = pathUrl.split("?");
-        const defaultType = 'gimnasios';
-        const type = params.length > 1 ? params[1] : defaultType;
-        let data = {};
-        const response = await getData(type);
-        data = response.data;
-        render_menu(type);
-        render_body(data);
-        hide_loader();
+        render_menu(categories.data);
+        render_body(places);
 
+        /*const categories = [
+            {id: 1, name: 'Atracciones'},
+            {id: 1, name: 'Compras'},
+            {id: 1, name: 'Bares'},
+        ]
+        const response = await get(ENDPOINT_TOURISTICPLACES, {method: 'GET'});
+        const places = response.data;
+
+
+        bodyActive = places.length > 0 ? true: false; 
+        render_menu(categories);
+        render_body(places);
+        */
         control_magic_remote();
-        
-    }catch(ex){
-        console.log(ex);
-    };
-})();
-
-
-
-
+        hide_loader();
+  })();

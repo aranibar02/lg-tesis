@@ -16,7 +16,61 @@
 </head>
 <body>
 	
-	<div class="modal fade" id="store__modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <strong id="msjConfirmacion">¿Estás seguro de cargar el producto a sus cuenta?</strong><br />
+                        <span id="modal-header">Producto: Inca Kola 500ml</span><br />
+                        <span id="modal-subheader">Precio: S/ 4.50</span>
+                        <div class="modal-confirm mt-5">
+                            <img src="icons/cancel-icon.svg" class="modal-button cancel-modal" data-dismiss="modal" value="false"  >
+                            <img src="icons/confirm-icon.svg" class="modal-button confirm-modal">
+                            <span class="cancel-modal"></span>
+                            <span class="confirm-modal"></span>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+	<!--<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+
+					<p id="buyConfirmationText">¿Está usted seguro de cargar el producto a su cuenta? <br/>
+						<strong id="Nombre"></strong><br />
+					</p>
+					<div class="pickers">
+						<div class="cantidades">
+							<div class="cantidad">
+									<span id="cantidadSpan" class="cant grilla" >
+										<img class="icon-uf" src="icons/up-arrow.svg">
+										<p id="canvalue" class="valuecan">10</p>
+										<img class="icon-df" src="icons/down-arrow.svg">
+									</span>
+							</div>
+						</div>
+					</div>
+					<strong id="precio" class="price">28.00</strong>
+					<div class="buttons modal-confirm">
+						<button id="ActiveModal1" class="btn btn-primary cancel-compra grilla" >Cancelar</button><br>
+						<button id="ActiveModal2" class="btn btn-primary confirm-compra grilla" >Comprar</button>
+					</div>
+					 <div class="buttons modal-confirm mt-5">
+						<img src="icons/cancel-icon.svg" id="ActiveModal1" class="cancel-modal" data-dismiss="modal" >
+						<img src="icons/confirm-icon.svg" id="ActiveModal2" class="confirm-modal">
+						<span class="cancel-modal"></span>
+						<span class="confirm-modal"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>--!>
+
+	<!--<div class="modal fade" id="store__modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 			  <div class="modal-header">
@@ -46,7 +100,7 @@
 			  </div>
 			</div>
 		  </div>
-	</div>
+	</div>--!>
 
 
 	<!-- <div w3-include-html="master.html"></div> -->
@@ -55,18 +109,21 @@
         <div class="loader-section section-left"></div>
         <div class="loader-section section-right"></div>
     </div>
+
+
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main-list col-4 pl-0 pr-0">
 				<div class="logo2">
-					<h1 id="storeTitle" class="title"> </h1>
+					<h1 id="storeTitle" class="title">Tienda</h1>
 				</div>
 				<ul class="sidebar">
 				</ul>
 				<div class="img-dtl">
-					<img class="img-rest" src="../../assets/icon/ser1.jpg">
-					<a href="index.html" class="grid" id="ColumCategoria_6" value="6" column="1" row="6">
-						<img src="../../assets/icon/left-arrow.png" class="back">
+					<img class="img-rest" src="ser1.jpg">
+					<a href="index.html" class="grid" id="ColumCategoria_6">
+						<img src="left-arrow.png" class="back" col="4" row="4">
 					</a> 
 				</div>
 			</div>
@@ -75,20 +132,21 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="store__confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					<img src="../../assets/icon/confirm-icon.svg">
-					<p id="buySucceded" class="mt-5">¡Se añadió el producto a tu cuenta!</p>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="icons/confirm-icon.svg">
+                    <p id="reservationSuccededTxt" class="mt-5">¡Se añadió el producto a tu cuenta!</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./src/constants/constants.js"></script>
+	<script type="text/javascript" src="./src/constants/config.js"></script>
     <script type="text/javascript" src="./src/api/api.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="./src/screens/js/store.js"></script>
