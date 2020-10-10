@@ -221,24 +221,6 @@ const render_content_inroom_dining = (dishes, dishTypes) => {
 
     select_item_menu(4);
     control_magic_remoto();
-/*    const location = window.location.href;
-    const q = location.split("?");
-    const topic = q.length > 1 ? q[1] : "world";
-    //newsData = await get(SEARCH_FREE(`page_size=10&lang=es&media=True&q=${topic}`), config);
-    //const data = mockData;
-    render_body(mockData);
-    control_magic_remoto();
-    $(`.itemmenu`).mouseover(async function(){
-      var topic = $(this).attr(`topic`);
-      //var result  = await get(SEARCH_FREE(`page_size=10&lang=es&media=True&q=${topic}`), config);
-      //newsData = result;
-      //render(newsData); 
-      /*
-      var filterData = productResult.data.filter(e => e.product_category_id === parseInt(serial));
-      console.log(filterData);
-      renderBody(filterData, 1);
-      */
- // });
   
   })();
   

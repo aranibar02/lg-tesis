@@ -2,7 +2,39 @@
 var bodyActive = true;
 //#endregion
 
+//#region 
+var language;
+//#endregion
 
+
+const get_category_by_language = (item) => {
+  let text = '';
+  switch(language){
+    case 'español':
+      text = item.name;
+      break;
+    case 'ingles':
+      text = item.name_en;
+      break;
+    case 'portugues':
+      text = item.name_po
+      break;
+    default:
+      text = item.name
+      break;
+  }
+  return text;
+}
+
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
 
 const show_loader = () => {
     $('#loader-wrapper').removeClass('Oculto').addClass('Activo');
@@ -170,7 +202,7 @@ const show_loader = () => {
       return `
       <li class="itemmenu grid ${key > 0 ? "" : (bodyActive === false ? "itemselected active": "itemselected")}" col="0" row="${key + 1}" serial="${item.id}">
         <div class="item">
-          <p>${item.name}</p>
+          <p>${get_category_by_language(item)}</p>
         </div>
       </li>
       `
@@ -185,9 +217,9 @@ const show_loader = () => {
         return(`<div class="card-box p-4 subgrid ${key > 0 ? "" : (bodyActive === true ? "active": "")}" col="1" row="${key + 1}" serial="${item.id}">
         <h1>${item.name}</h1>
         <div class="info">
-          <span><img src="${item.imgUrl}" class="rest-img"/></span>
+          <span><img src="${item.img_url}" class="rest-img"/></span>
           <div class="rest-info pl-4">
-            <p>${item.description}</p>
+            <p>${item.description.substring(0,200)}...</p>
           </div>
         </div>
       </div>
@@ -212,12 +244,18 @@ const show_loader = () => {
   
     wrapper.innerHTML = contentHtml;
   }
+
+  const init = () => {
+    $('#serviceTypeText').text(CONFIGURATION[language].submodule_places_name);
+  };
   
   (async function () {
   
       show_loader();
       const pathUrl = window.location.href;
-  
+      const config = await get_config_data();
+
+      language = config ? config.language : 'español';
       const params = pathUrl.split("?");
       
 
@@ -227,6 +265,7 @@ const show_loader = () => {
         const places = placeResult.data.filter(x => x.touristic_places_type_id === Number(categoryId)); 
         bodyActive = places.length > 0 ? true : false;
 
+        init();
         render_menu(categories.data);
         render_body(places);
 

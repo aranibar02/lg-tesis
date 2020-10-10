@@ -1,9 +1,22 @@
+//#region 
+var language;
+//#endregion
+
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
 const select_back_buttom = (past, current) => {
     past.removeClass(`itemselected active`);
     current.addClass(`itemselected active`);
 };
   
-
 const select_item_menu = async(past, current) =>{
     show_loader();
     past.removeClass(`itemselected active`);
@@ -169,9 +182,10 @@ const control_magic_remote = () => {
   
 const render_menu = (type) => {
     var wrapper = document.getElementById('menu');
-    const items = [{header:"Gimnasio", value: "gimnasios"},
-                   {header:"Spa", value: "spas"},
-                   {header:"Restaurante", value: "restaurantes"}
+    const items = [{header:CONFIGURATION[language].module_services_first_menu_item , value: "gimnasios"},
+                   {header:CONFIGURATION[language].module_services_second_menu_item, value: "spas"},
+                   {header:CONFIGURATION[language].module_services_third_menu_item, value: "restaurantes"},
+                   {header:CONFIGURATION[language].module_services_fourth_menu_item, value: "limpieza"}
                    ];
 
     var html = items.map(function(item, key){
@@ -205,7 +219,7 @@ const render_body = (data) => {
                     <img src="${item.imgUrl}" class="rest-img"/>
                 </span>
                 <div class="rest-info pl-4">
-                    <p>${item.description}</p>
+                    <p>${item.description.substring(0,200)}...</p>
                 </div>
                 <div class="rest-infoDiv">
                     <button onclick="InfoRedirect()" class="btn btn-primary more-info">${"Mas informacion"}</button>
@@ -250,9 +264,18 @@ const getData = async (type) => {
     return response;    
 };
 
+const init = () => {
+    $('#servicesTitle').text(CONFIGURATION[language].module_services_header);
+};
+
+
 (async function () {
     try{
         show_loader();
+        const config = await get_config_data();
+
+        language = config ? config.language : 'español';
+
         const pathUrl = window.location.href;
         const params = pathUrl.split("?");
         const defaultType = 'gimnasios';
@@ -260,10 +283,10 @@ const getData = async (type) => {
         let data = {};
         const response = await getData(type);
         data = response.data;
+        init();
         render_menu(type);
         render_body(data);
         hide_loader();
-
         control_magic_remote();
         
     }catch(ex){

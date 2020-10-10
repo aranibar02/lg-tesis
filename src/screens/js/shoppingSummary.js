@@ -178,7 +178,7 @@ function renderSideBar(data){
             <h1 id="period">Periodo:</h1>
             <h2>${item.billing_date}</h2>
             <h1 id="amount">Cuenta:</h1>
-            <h2>${item.currency_symbol} ${item.total_amount}</h2>
+            <h2>${get_price_format(item.total_amount)}</h2>
         </div>
         `    
     }).join(` `);
@@ -199,7 +199,7 @@ const render_body = (data) =>{
             <div style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 20%;" >${dateFormat}</div>
             <div style="text-align: center; FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 15%;text-align: center;" >${time}</div>
             <div style="text-align: center;FLOAT: LEFT;padding: 2% 3%;font-size: 1.8em;    color: #102042;width: 40%;text-align: left;" >${item.transaction_description}</div>
-            <div style="text-align: right;FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 25%;text-align: left;" >${item.currency_symbol} ${item.amount}</div>
+            <div style="text-align: right;FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #102042;width: 25%;text-align: left;" >${get_price_format(item.amount)}</div>
         </div>
         `)
     }).join(` `);
@@ -211,10 +211,10 @@ const render_body = (data) =>{
         <div class="col-12 pl-4 multi-rest">
             <h1 style="MARGIN: 2% 0;" id="transaction-subheader"></h1>
             <div style="background: #838383;    height: 100px;">
-                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 20%;" id="table-date">FECHA</div>
-                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 15%;text-align: center;" id="table-time">HORA</div>
-                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 40%;text-align: left;" id="table-description">DESCRIPCIÓN</div>
-                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 25%;text-align: left;" id="table-amount">MONTO</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 20%;" id="table-date">${CONFIGURATION[language].module_account_table_date_name}</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 15%;text-align: center;" id="table-time">${CONFIGURATION[language].module_account_table_time_name}</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 40%;text-align: left;" id="table-description">${CONFIGURATION[language].module_account_table_description_name}</div>
+                <div style="FLOAT: LEFT;padding: 2% 3%;font-size: 2em;    color: #FFFFFF;width: 25%;text-align: left;" id="table-amount">${CONFIGURATION[language].module_account_table_amount_name}</div>
             </div>
             <div  id="ScrollRes" style=" overflow-y: scroll; height:750PX;">
             ${html}

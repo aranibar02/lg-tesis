@@ -4,9 +4,37 @@ var dishTypeId;
 var dishId;
 var bodyActive = true;
 var bodySize = 0;
+var language;
 //#endregion
 
-
+const get_category_by_language = (item) => {
+    let text = '';
+    switch(language){
+      case 'español':
+        text = item.description;
+        break;
+      case 'ingles':
+        text = item.description_en;
+        break;
+      case 'portugues':
+        text = item.description_po
+        break;
+      default:
+        text = item.description
+        break;
+    }
+    return text;
+  }
+  
+  const get_config_data = async() => {
+      try{
+          const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+          const data = response.data.length > 0 ? response.data[0].configuration : {};
+          return data;
+      }catch(ex){
+          console.log(ex);
+      }
+  };
 
 
 
@@ -189,7 +217,7 @@ const render_main_list = (restaurant, dishTypes, dishTypeId) => {
         <li class="itemmenu grid ${item.id === dishTypeId ? (bodyActive === false ? "itemselected active" : "itemselected") : ""}" col="0" row="${key + 1}" 
         topic="${item.description}" unique-key="${item.id}">
             <div class="item" >
-                <p>${item.description}</p>
+                <p>${get_category_by_language(item)}</p>
             </div>
         </li>        
         `
@@ -197,8 +225,8 @@ const render_main_list = (restaurant, dishTypes, dishTypeId) => {
 
     const contentHtml = `
         <div class="logo2">
-            <h2>RESTAURANTE</h2>
-            <h1>${restaurant.name}</h1>
+            <h2 id="serviceTypeText"></h2>
+            <h1 id="tituloRestaurante">${restaurant.name}</h1>
         </div>
         <ul class="sidebar">
             ${html}
@@ -246,7 +274,7 @@ const render_body = (data) => {
                         <img src="${item.photoUrl}" class="rest-img"/>
                         <div class="rest-info pl-4">
                             <p>
-                                ${item.small_description}
+                                ${item.small_description.substring(0,200)}...
                             </p>
                             <div class="buttons">
                                 <a href="reserva.html" class="btn btn-primary reserva grid changebutton" item="2">Reservar</a>
@@ -292,10 +320,11 @@ const getData = async(restaurantId, dishTypeId) => {
 };
 
 const init = (data) => {
-    $('#serviceTypeText').text(`Restaurante`);
+    $('#serviceTypeText').text(CONFIGURATION[language].submodule_restaurants_header_name);
     $('tituloRestaurante').text(data.name);
     $('imgRestaurante').attr('src', data.imgUrl);
-}
+};
+
 
 (async function () {
     try{
@@ -307,8 +336,11 @@ const init = (data) => {
  
         const restaurantResponse = await get(ENDPOINT_GET_RESTAURANTS, {method: 'GET'});
         const restaurant = restaurantResponse.data.find( x => x.id === Number(restaurantId));
-        init(restaurant);
 
+        const config = await get_config_data();
+        language = config.language;
+
+        
         const dishTypesResponse = await get(ENDPOINT_GET_DISH_TYPES, {method: 'GET'});
         const dishTypes = dishTypesResponse.data.sort( (a, b) => a.id - b.id);
         const defaultType = dishTypes[0].id;
@@ -322,6 +354,7 @@ const init = (data) => {
         render_main_list(restaurant, dishTypes, Number(type));
         render_menu(dishTypes, Number(type));
         render_body(dishes);
+        init(restaurant);
         control_magic_remote();
     }catch(ex){
         console.log(ex);

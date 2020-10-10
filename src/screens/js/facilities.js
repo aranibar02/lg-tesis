@@ -1,6 +1,20 @@
 //#region
 var lastItem = 0;
+var language;
 //#endregion
+
+
+
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
 
   const select_back_button  = (past, current) => {
     past.removeClass('active');
@@ -166,9 +180,17 @@ var lastItem = 0;
     wrapper.innerHTML = contentHtml;
   }
   
+  const init = () => {
+    $('#titlePage').text(CONFIGURATION[language].submodule_facilities_name);
+  };
+
   (async function () {
       const response = await get(ENDPOINT_FACILITIES, {method: 'GET'});
+      const config = await get_config_data();
+      language = config.language;
+
       const events = response.data;
+      init();
       render_body(events);
       control_magic_remote();
   })();

@@ -470,6 +470,7 @@ showPreloader();
 	$('#storeTxt').text(CONFIGURATION[`${language}`].module_store_name);
 	$('#weatherTxt').text(CONFIGURATION[`${language}`].module_weather_name);
 	$('#accountTxt').text(CONFIGURATION[`${language}`].module_account_name);
+	$('#messagesTxt').text(CONFIGURATION[`${language}`].module_flights_name);
 	$('#eventTxt').text(CONFIGURATION[`${language}`].submodule_events_name);
 	$('#placesTxt').text(CONFIGURATION[`${language}`].submodule_places_name);
 	$('#facilitiesTxt').text(CONFIGURATION[`${language}`].submodule_facilities_name);

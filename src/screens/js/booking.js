@@ -224,12 +224,16 @@ const set_date = (date) => {
     const monthHtml = $(`.markers .month .value`);
     const yearHtml = $(`.markers .year .value`);
 
+    2020-10-02
+
+    console.log(date);
     dayHtml.html(date.split('-')[2]);
     monthHtml.html(date.split('-')[1]);
-    yearHtml.html(date.split('-')[0]);
+    yearHtml.html(date.split('-')[0].substr(-2));
 };
 
 const set_time = (time) => {
+
     const hourHtml = $(`.hour .hour .value`);
     const minuteHtml = $(`.hour .minute .value`);
     

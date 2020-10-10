@@ -2,6 +2,53 @@
 var lastItem = 0;
 //#endregion
 
+
+//#region 
+var lastItem = 0;
+var language = '';
+var currency = '';
+//#endregion
+
+
+const init = async() => {
+    $('#moduleTitle').text(CONFIGURATION[language].module_booking_history_header_name);
+}
+
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
+
+
+  const get_price_format = (price) => {
+    let text = '';
+    switch(currency){
+      case 'soles':
+        text = `${SOL_SYMBOL} ${price}`;
+        break;
+      case 'dolares':
+        text = `${USD_SYMBOL}${toDollars(price).toFixed(2)}`;
+        break;
+      case 'euros':
+        text = `${toEuros(price).toFixed(2)} ${EURO_SYMBOL}`;
+        break;
+      default:
+        text = `${SOL_SYMBOL} ${price.toFixed(2)}`;
+        break;
+    }
+    return text;
+  }
+//$13.95
+//28,06 €
+//S/ 825
+
+
 const select_back_button  = (past, current) => {
     past.removeClass('active');
     current.addClass('itemselected active');
@@ -173,6 +220,9 @@ const hide_loader = () => {
         const restaurantsBooking = await get(ENDPOINT_BOOKING_RESTAURANTS, { method: 'GET'});
         const gymsBooking = await get(ENDPOINT_BOOKING_GYMS, { method: 'GET' });
         const spasBooking = await get(ENDPOINT_BOOKING_SPAS, { method: 'GET' });
+        const config = await get_config_data();
+
+        language = config.language;
 
         let data = [];
 
@@ -198,10 +248,11 @@ const hide_loader = () => {
         })); 
         
         data = a.concat(b).concat(c).sort( (x,z) => {return new Date(z.startTime) - new Date(x.startTime)});
-        data = data.filter( x => Number(x.guestId) === 2);
+        data = data.filter( x => Number(x.guestId) === GUEST_ID);
         console.log(data);
         console.log(data);
         lastItem = 1;
+        init();
         render_body(data);
         hide_loader();
         control_magic_remote();

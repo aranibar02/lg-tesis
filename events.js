@@ -1,4 +1,21 @@
 
+//#region 
+var language = '';
+var currency = '';
+//#endregion
+
+
+const get_config_data = async() => {
+	try{
+		const response = await get(ENDPOINT_CHECK_IN(GUEST_ID), { method: 'GET'} );
+		const data = response.data.length > 0 ? response.data[0].configuration : {};
+		return data;
+	}catch(ex){
+		console.log(ex);
+	}
+};
+
+
 const show_loader = () => {
   $('#loader-wrapper').removeClass('Oculto').addClass('Activo');
 };
@@ -155,11 +172,11 @@ const control_magic_remote = () => {
 
 const render_menu = (type) => {
   var wrapper = document.getElementById('menu');
-  const items = [{header:"Música", value: "musica"},
-                 {header:"Arte", value: "arte"},
-                 {header:"Moda", value: "moda"},
-                 {header:"Teatro", value: "teatro"},
-                 {header:"Charlas", value: "charlas"}
+  const items = [{header: CONFIGURATION[language].submodule_events_menu_music, value: "musica"},
+                 {header: CONFIGURATION[language].submodule_events_menu_art, value: "arte"},
+                 {header: CONFIGURATION[language].submodule_events_menu_fashion, value: "moda"},
+                 {header: CONFIGURATION[language].submodule_events_menu_theater, value: "teatro"},
+                 {header: CONFIGURATION[language].submodule_events_menu_talks, value: "charlas"}
                 ];
   var html = items.map(function(item, key){
     return `
@@ -189,7 +206,7 @@ const render_body = (data) => {
       <div class="info">
         <span><img src="${item.imgUrl}" class="rest-img"/></span>
         <div class="rest-info pl-4">
-          <p>${item.description}</p>
+          <p>${item.description.substring(0,200)}...</p>
           <span class="datelabel">Fecha: </span><span>: ${format} ,</span><span class="hourlabel"> Hora: </span><span>${time} </span>
         </div>
       </div>
@@ -216,10 +233,17 @@ const render_body = (data) => {
   wrapper.innerHTML = contentHtml;
 }
 
+const init = () => {
+  $('#serviceTypeText').text(CONFIGURATION[language].submodule_events_name);
+};
+
 (async function () {
 
     show_loader();
     const pathUrl = window.location.href;
+    const config = await get_config_data();
+    language = config.language;
+
 
     const params = pathUrl.split("?");
     const defaultType = 'musica';
@@ -227,6 +251,7 @@ const render_body = (data) => {
       
     const response = await get(ENDPOINT_GET_EVENT_BY_TYPE(type), {method: 'GET'});
     const events = response.data;
+    init();
     render_menu(type);
     render_body(events);
     control_magic_remote();
