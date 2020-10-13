@@ -201,7 +201,7 @@ const render_body = (data) => {
       const format = date.toLocaleDateString("en-US");
       const time = `${hour}:${minutes}`;
 
-      return(`<div class="card-box p-4 subgrid ${key > 0 ? "" : "active"}" col="1" row="${key + 1}" serial="${item.id}">
+      return(`<div class="card-box p-4 mb-5 subgrid ${key > 0 ? "" : "active"}" col="1" row="${key + 1}" serial="${item.id}">
       <h1>${item.name}</h1>
       <div class="info">
         <span><img src="${item.imgUrl}" class="rest-img"/></span>
@@ -214,7 +214,7 @@ const render_body = (data) => {
     ` ) 
   }).join(" ");
 
-  var contentHtml =     `
+  var contentHtml = `
   <div class="col-12 pl-5 serv-rest">
   </div>
   <div class="col-12 pl-0 scrollbar">

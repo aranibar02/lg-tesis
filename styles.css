@@ -4,10 +4,22 @@
 }
 
 body {
-	background-image: url('imagenes/imgmain.jpg');
-	background-size: cover;
+	/* background-image: url('imagenes/imgmain.jpg'); */
+	/* background-size: auto; */
+	
 	font-family: 'Montserrat', sans-serif;
 }
+
+.index__main-image {
+	position: absolute;
+	top:0;
+	bottom:0;
+	right: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 ul {
 	list-style-type: none;
 	margin: 0;
@@ -269,16 +281,21 @@ ul .itemmenux{
 	Nuevos cambios hechos menu lateral
 */
 
-
+.index__header {
+	position: relative;
+	width: 100%;
+	margin-left: 0!important;
+	padding-right: 0!important;
+}
 #extramenu {
-	display: block;
-	position:relative;
-	text-align: right;
-	margin-top: 50px;
-	margin-left: 1800px;
+	display: flex;
 	width: 125px;
 	height: 250px;
-	float: right;
+	flex-direction: column;
+	justify-content: space-around;
+	position: absolute;
+	right: 0;
+	margin-top: 20rem;
 	background-color: #000;
 	opacity: 0.9;
 	-webkit-border-top-left-radius: 50px;
@@ -289,14 +306,8 @@ ul .itemmenux{
 	border-bottom-left-radius: 50px;
 }
 #extramenu div{
-	display: block;
-	position:relative;
-	margin-top: 30px;
-	margin-right: 20px;
-	height: 80px;
-	width: 80px;
-	text-align: center;
-	margin-left:20px;
+	display: flex;
+	justify-content: center;
 }
 
 #extramenu img{
@@ -306,9 +317,7 @@ ul .itemmenux{
 	z-index: 1;
 	border-radius: 50%;
 }
-#extramenu .active{
-	display:block !important;
-	position:relative;
+#extramenu .active img{
 	background-color: #007bff !important;
 	transition: 0.5s linear !important;
 	height: 80px !important;
@@ -316,9 +325,6 @@ ul .itemmenux{
 	z-index: 2;
 	border-radius: 50%;
 }
-
-
-
 
 /* Nuevos modales */
 
