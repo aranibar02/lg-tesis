@@ -212,7 +212,7 @@ const render_body = (data) => {
     var wrapper = document.getElementById('content');
     var html = data.map(function(item, key){
         return(`
-        <div class="card-box p-4 subgrid ${key >0 ? "":"active"}" col="${1}" row="${key + 1}" unique-key=${item.id}>
+        <div class="card-box p-2 subgrid ${key >0 ? "":"active"}" col="${1}" row="${key + 1}" unique-key=${item.id}>
             <h1>${item.name}</h1>
             <div class="info">
                 <span>
